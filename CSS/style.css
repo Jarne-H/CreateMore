@@ -1,3 +1,22 @@
 body {
-    background-color: red;
+    background-color: #E5E5E5;
+    
+}
+button {
+    background-color: #042886;
+    color: white;
+    max-width: 248px;
+    max-height: 72px;
+}
+#form div{
+    display: flex;
+    flex-direction: column;
+   padding-bottom: 5em;
+   max-width: 15em;
+  
+}
+#form input {
+    border-radius: 0.2em;
+    border: 0.8px #042886 solid;
+    margin-top: 0.8em;
 }
