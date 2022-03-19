@@ -18,10 +18,11 @@ if (!empty($_POST)) {
 		$query  = $conn->prepare("insert into user ( email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
 		");
 
-		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be')) {
+		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be') !== false) {
 			$query  = $conn->prepare ("select * from user where email = '$email'");
 			$query -> execute();
 			$result = $query->rowCount();
+
 
 			if ($result === 1){
 				$error = "Dit e-mail adres bestaat al.";
@@ -48,6 +49,9 @@ if (!empty($_POST)) {
 		}
 
 		}
+	}
+	else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
+		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
 	}
 		else if ($password !== $passwordconf){
 			$errorPass2 = "Wachtwoorden komen niet overeen.";
@@ -133,8 +137,11 @@ if (!empty($_POST)) {
 				<div>
 				<input type="submit" value="Meld je aan" id="btn">
 				</div>
+
 		</div>
 		</form>
+
+		<p id="hebaccount">Heb je al een account? <a href="./logIn.php">Login in</a></p>
 
 	
 </body>

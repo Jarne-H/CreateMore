@@ -15,7 +15,7 @@ body {
   
   
 }
-.inputfields {
+.inputfields input{
     border-radius: 0.4em;
     border: 0.8px #042886 solid;
     margin-top: 0.8em;
@@ -43,6 +43,13 @@ h1 {
 }
 #btn {
     background-color: #042886;
+    margin-top: 5em;
+    border-radius: 0.4em;
+    padding: 0.5em;
+    width: 10em;
     color: white;
+}
+#hebaccount {
+    font-size: small;
 }
     
