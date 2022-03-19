@@ -24,7 +24,7 @@ if (!empty($_POST)) {
 			$result = $query->rowCount();
 
 			if ($result === 1){
-				$error = true;
+				$error = "Dit e-mail adres bestaat al.";
 			}
 			else {
 		
@@ -41,6 +41,7 @@ if (!empty($_POST)) {
 			$query ->bindValue(":password", $password);
 			$query ->execute();
 			header("Location: logIn.php");
+			
 
 			
 			
@@ -48,8 +49,13 @@ if (!empty($_POST)) {
 
 		}
 	}
-		else {
-			$error = true;
+		else if ($password !== $passwordconf){
+			$errorPass2 = "Wachtwoorden komen niet overeen.";
+
+		}
+		else  {
+			$errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
+
 		}
 	
 
@@ -81,8 +87,8 @@ if (!empty($_POST)) {
 		<div class="liner"></div>
 		<div id="form">
 			<form method="post" action>
-			
-				<div>
+		
+				<div class="inputfields">
                     <label for="email">E-mail</label>
                     <input name="email" placeholder="E-mail adres" type="email" required autofocus/>
                 </div>
@@ -92,50 +98,41 @@ if (!empty($_POST)) {
 				</div>
 				<?php endif;?>
 
-				
-			
-				<div>
+				<div class="inputfields">
                     <label for="username">Gebruikersnaam</label>
                     <input name="username" placeholder="Gebruikersnaam" type="text" required/>
                 </div>
-				<?php if(isset($error)):?>
+				<?php if(isset($errorUser)):?>
 				<div class="errorMessage">
-					<p>Gebruikersnaam mag niet leeg zijn</p>
+					<p><?php echo $errorUser?></p>
 				</div>
 				<?php endif;?>
 
 			
 
-                <div>
+                <div class="inputfields">
                     <label for="password">Wachtwoord</label>
                     <input name="password" placeholder="Wachtwoord" type="password" required/>
                 </div>
-				<?php if(isset($error)):?>
+				<?php if(isset($errorPass)):?>
 				<div class="errorMessage">
-					<p>Wachtwoord moet minstens 6 karakters lang zijn.</p>
-					<p>E-mail bestaat al</p>
+				<p><?php echo $errorPass?></p>
+					
 				</div>
 				<?php endif;?>
-
-
-                <div>
+                <div class="inputfields">
                     <label for="password_conf">Wachtwoord bevestigen</label>
                     <input name="password_conf" placeholder="Wachtwoord bevestigen" type="password" required />
                 </div>
-				<?php if(isset($error)):?>
+				<?php if(isset($errorPass2)):?>
 				<div class="errorMessage">
-					<p>Wachtwoorden komen niet overeen.</p>
+				<p><?php echo $errorPass2?></p>
 				</div>
 				<?php endif;?>
-			
-		<div class="user-messages-area">
-			<div class="alert alert-danger">
-				
-			<input type="submit" value="Meld je aan" class="btn">
-					<ul>
-					
-
-			</div>
+		
+				<div>
+				<input type="submit" value="Meld je aan" id="btn">
+				</div>
 		</div>
 		</form>
 

@@ -6,14 +6,7 @@ body {
     
     
 }
-button {
-    background-color: #042886;
-    color: white;
-    max-width: 7em;
-    max-height: 72px;
-    padding: 0.5em;
-    border-radius: 0.4em;
-}
+
 #form div{
     display: grid;
    padding-bottom: 1.35em;
@@ -22,7 +15,7 @@ button {
   
   
 }
-#form input {
+.inputfields {
     border-radius: 0.4em;
     border: 0.8px #042886 solid;
     margin-top: 0.8em;
@@ -48,5 +41,8 @@ h1 {
     margin-bottom: -0.4em;
     
 }
-
+#btn {
+    background-color: #042886;
+    color: white;
+}
     
