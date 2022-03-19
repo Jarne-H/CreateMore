@@ -1,22 +1,52 @@
 body {
     background-color: #E5E5E5;
+    margin-left: 3em;
+    font-family: roboto;
+    
+    
     
 }
 button {
     background-color: #042886;
     color: white;
-    max-width: 248px;
+    max-width: 7em;
     max-height: 72px;
+    padding: 0.5em;
+    border-radius: 0.4em;
 }
 #form div{
-    display: flex;
-    flex-direction: column;
-   padding-bottom: 5em;
+    display: grid;
+   padding-bottom: 1.35em;
    max-width: 15em;
+   font-size: 0.8em;
+  
   
 }
 #form input {
-    border-radius: 0.2em;
+    border-radius: 0.4em;
     border: 0.8px #042886 solid;
     margin-top: 0.8em;
+    height: 2em;
+    width: 30em;
+    
+    
 }
+h1 {
+    text-align: center;
+    font-family: roboto;
+    
+}
+.errorMessage {
+    margin-top: -1.1em;
+    
+    
+}
+.errorMessage p {
+    font-size: smaller;
+    color: red;
+    width: 50em;
+    margin-bottom: -0.4em;
+    
+}
+
+    
