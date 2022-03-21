@@ -50,6 +50,9 @@
 				<div>
 				<input type="submit" value="Log in" id="btn">
 				</div>
+
+                <p id="hebaccount">Heb je nog geen account?<a href="/signUp.php">Meld aan</a></p>
+
 		</div>
 		</form>
 
