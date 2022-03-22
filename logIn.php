@@ -1,5 +1,44 @@
 <?php
 
+	function canLogin($_username, $_password){
+		//connectie met databank
+		$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+		//query maken
+		$statement = $conn->prepare("select * from user where username = :username");
+		$statement->bindValue(":username", $_username);
+		$statement->execute();
+		$user = $statement->fetch(PDO::FETCH_ASSOC);
+		// var_dump($user);
+
+		$hash = $user['password'];
+		if(password_verify($_password, $hash)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if(!empty($_POST)){
+		//er is gesubmit
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		echo $username . $password;
+
+		//check of de user mag inloggen
+		if(canLogin($username, $password)){
+			session_start();
+			$_SESSION['username'] = $username;
+
+			//doorsturen naar index.php
+			header("location:index.php");
+		} else {
+			echo "komt niet overeen";
+		}
+	}
+
+
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
