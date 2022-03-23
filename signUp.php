@@ -14,14 +14,19 @@ if (!empty($_POST)) {
 	$password = $_POST['password'];
 	$passwordconf = $_POST['password_conf'];
 
-		$conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
-		$query  = $conn->prepare("insert into user ( email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
-		");
+		
 
 		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be') !== false) {
-			$query  = $conn->prepare ("select * from user where email = '$email'");
+			$conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
+			//$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
+		//");
+
+			$query  = $conn->prepare ("select * from user where email = :email");
+			$query ->bindValue(":email", $email);
+
 			$query -> execute();
 			$result = $query->rowCount();
+
 
 
 			if ($result === 1){
@@ -34,6 +39,11 @@ if (!empty($_POST)) {
 
 		if (  $password === $passwordconf && strlen($password)>=6) {
 
+			$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
+
+			");
+	
+
 			$password = password_hash($_POST['password'] . "SDF0303", PASSWORD_DEFAULT, $options);
 			$query ->bindValue(":email", $email);
 			$query ->bindValue(":username", $username);
@@ -42,6 +52,8 @@ if (!empty($_POST)) {
 			$query ->bindValue(":password", $password);
 			$query ->execute();
 			header("Location: logIn.php");
+
+
 			
 
 			
@@ -50,15 +62,19 @@ if (!empty($_POST)) {
 
 		}
 	}
-	else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
+		else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
 		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
-	}
+		//echo "er staat niks";
+		}
 		else if ($password !== $passwordconf){
 			$errorPass2 = "Wachtwoorden komen niet overeen.";
+			var_dump($errorPass2);
 
 		}
-		else  {
+		else {
 			$errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
+			//echo "wachtwoord komt niet overeen";
+			return $errorPass;
 
 		}
 	
