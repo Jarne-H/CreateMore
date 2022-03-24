@@ -5,15 +5,24 @@
 	function canLogin($username, $password){
 		
 		try {
+			/*if($username === "ninja" && $password === "12345") {
+			return true;
+		} else {
+			return false;
+		}*/
 			//connectie met databank
 			$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
 			//query maken
 			$statement = $conn->prepare("select * from user where username = :username");
 			$statement->bindValue(":username", $username);
 			$statement->execute();
-			$user = $statement->fetch(PDO::FETCH_ASSOC);
+			// $user = $statement->fetch(PDO::FETCH_ASSOC);
+			$user = $statement->fetch();
 			// var_dump($user);
-
+			// var_dump($password);
+			// var_dump("\n");
+			// var_dump($user['password']);
+			
 			$hash = $user['password'];
 			if(password_verify($password, $hash)){
 				return true;
