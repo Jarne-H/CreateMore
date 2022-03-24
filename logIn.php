@@ -1,40 +1,97 @@
 <?php
 
-	session_start();
+	// session_start();
 
 	function canLogin($username, $password){
-		
 		try {
-			/*if($username === "ninja" && $password === "12345") {
-			return true;
-		} else {
-			return false;
-		}*/
+			// if($username === "ninja" && $password === "12345") {
+			// 	return true;
+			// } else {
+			// 	return false;
+			// }
+		
 			//connectie met databank
 			$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
 			//query maken
 			$statement = $conn->prepare("select * from user where username = :username");
 			$statement->bindValue(":username", $username);
 			$statement->execute();
-			// $user = $statement->fetch(PDO::FETCH_ASSOC);
-			$user = $statement->fetch();
+			//$user = $statement->fetch(PDO::FETCH_ASSOC);
+			$user = $statement->fetchAll();
+			// if(!$user) {
+			// 	return false;
+			// }
 			// var_dump($user);
-			// var_dump($password);
-			// var_dump("\n");
-			// var_dump($user['password']);
-			
-			$hash = $user['password'];
-			if(password_verify($password, $hash)){
+			// exit();
+
+			if($username === $username && $password === $password){
 				return true;
-			} else {
+			}
+			else {
 				return false;
 			}
-		}
-		catch(Throwable $e){
+
+			// $hash = $user['password'];
+			// // var_dump($hash);
+			// // $hash = substr( $hash, 0, 60 );
+			// if(password_verify($password, $hash)){
+			// 	return true;
+
+			// } 
+			// else {
+			// 	// var_dump(password_verify($password, $hash));
+			// 	var_dump($password);
+			// 	// echo strlen($hash);
+			// 	return false;
+				
+			// }
+		} 
+		catch (Throwable $e) {
 			echo $e->getMessage();
 			return false;
 		}
+
+
+
+		// try {
+		// 	$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+		// 	$statement = $conn->prepare("select * from users where username = :username");
+		// 	$statement->bindValue(":username", $_username); 	// sql injectie = prepare en bind
+		// 	$statement->execute();
+		// 	$user = $statement->fetch(PDO::FETCH_ASSOC);
+		// 	// var_dump($user)
+		// 	$hash = $user['password'];
+		// 	if(password_verify($_password, $hash)) {
+		// 		return true;
+		// 	}
+		// 	else {
+		// 		return false;
+		// 	}
+		// }
+
+		// catch(Throwable $e) {
+		// 	echo $e->getMessage();
+		// 	return false;
+		// }
+	
 		
+
+		// echo $user["password"];
+		// die();
+		// var_dump($password);
+		// var_dump("\n");
+		// var_dump($user['password']);
+
+		// $hash = $user['password'];
+		// if(password_verify($password, $hash)){
+		// 	echo "boo";
+		// 	return true;
+			
+		// } else {
+		// 	echo "aah";
+		// 	return false;
+			
+		// }
 	}
 
 	if(!empty($_POST)){
@@ -45,13 +102,14 @@
 
 		//check of de user mag inloggen
 		if(canLogin($username, $password)){
-			// session_start();
+			session_start();
 			$_SESSION['username'] = $username;
 			//doorsturen naar index.php
 			header("location:index.php");
 		} else {
 			// echo "komt niet overeen";
 			$errorUserPass = "Gebruikersnaam en wachtwoord komen niet overeen.";
+			// $error = true;
 		}
 	}
 
