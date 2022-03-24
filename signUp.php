@@ -1,4 +1,7 @@
 <?php
+
+include_once(__DIR__ . "/classes/User.php");
+
 //Pagina verwijst door naar login
 
 //Kijken of velden leeg zijn
@@ -8,28 +11,41 @@
 
 if (!empty($_POST)) {
 
-	$email = $_POST['email'];
-	$options = ['cost' => 14,];
+
+	
+		$user = new User();
+		$user->setEmail($_POST['email']);
+		$user->setUsername($_POST['username']);
+		$user->setPassword($_POST['password']);
+	
+		
+	
+	
+
+	/*$user->getEmail() = $_POST['email'];*/
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$passwordconf = $_POST['password_conf'];
+	
+
 
 		
 
-		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be') !== false) {
+		if (stripos($user->getEmail(), '@student.thomasmore.be') !== false || stripos($user->getEmail(),'@thomasmore.be') !== false) {
+			
 			$conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
 			//$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
 		//");
 
 			$query  = $conn->prepare ("select * from user where email = :email");
-			$query ->bindValue(":email", $email);
+			$query ->bindValue(":email", $user->getEmail());
 
 			$query -> execute();
 			$result = $query->rowCount();
 
 
 
-			if ($result === 1){
+			if ($result > 0){
 				$error = "Dit e-mail adres bestaat al.";
 			}
 			else {
@@ -43,9 +59,9 @@ if (!empty($_POST)) {
 
 			");
 	
-
+			$options = ['cost' => 14,];
 			$password = password_hash($_POST['password'] . "SDF0303", PASSWORD_DEFAULT, $options);
-			$query ->bindValue(":email", $email);
+			$query ->bindValue(":email", $user->getEmail());
 			$query ->bindValue(":username", $username);
 			session_start();
 
@@ -59,22 +75,24 @@ if (!empty($_POST)) {
 			
 			
 		}
+	
 
 		}
 	}
-		else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
+	 if (stripos($user->getEmail(), '@student.thomasmore.be') == false && stripos($user->getEmail(),'@thomasmore.be') == false) {
 		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
 		//echo "er staat niks";
 		}
-		else if ($password !== $passwordconf){
+	 if ($password !== $passwordconf){
 			$errorPass2 = "Wachtwoorden komen niet overeen.";
-			var_dump($errorPass2);
+			//var_dump("hi");
 
 		}
-		else {
+	if (strlen($password)<=6)
+		{
 			$errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
 			//echo "wachtwoord komt niet overeen";
-			return $errorPass;
+			//return $errorPass;
 
 		}
 	
@@ -84,6 +102,7 @@ if (!empty($_POST)) {
 
 
 }
+
 
 
 ?>
