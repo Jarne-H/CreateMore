@@ -18,6 +18,9 @@
         <div class="imageCropper">
             <a href="profile.php"><img src="../assets/profile1.png" alt="profielfoto"></a>
         </div>
+
+        <a href="logOut.php"><p class="logOut">Uitloggen</p></a>
+
     </nav>
 </body>
 </html>
