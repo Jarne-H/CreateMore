@@ -1,5 +1,7 @@
 <?php
 
+	session_start();
+
 	function canLogin($_username, $_password){
 		
 		try {
@@ -30,17 +32,18 @@
 		//er is gesubmit
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-		echo $username . $password;
+		// echo $username . $password;
 
 		//check of de user mag inloggen
 		if(canLogin($username, $password)){
-			session_start();
+			// session_start();
 			$_SESSION['username'] = $username;
 
 			//doorsturen naar index.php
 			header("location:index.php");
 		} else {
-			echo "komt niet overeen";
+			// echo "komt niet overeen";
+			$errorUserPass = "Gebruikersnaam en wachtwoord komen niet overeen.";
 		}
 	}
 
@@ -75,21 +78,15 @@
                     <input name="username" placeholder="Gebruikersnaam" type="text" required/>
                 </div>
 
-				<?php if(isset($errorUser)):?>
-				<div class="errorMessage">
-					<p><?php echo $errorUser?></p>
-				</div>
-				<?php endif;?>
-
 
                 <div class="inputfields">
                     <label for="password">Wachtwoord</label>
                     <input name="password" placeholder="Wachtwoord" type="password" required/>
                 </div>
 
-				<?php if(isset($errorPass)):?>
+				<?php if(isset($errorUserPass)):?>
 				<div class="errorMessage">
-				    <p><?php echo $errorPass?></p>
+				    <p><?php echo $errorUserPass?></p>
 				</div>
 				<?php endif;?>
 
