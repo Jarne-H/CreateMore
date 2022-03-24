@@ -2,20 +2,20 @@
 
 	session_start();
 
-	function canLogin($_username, $_password){
+	function canLogin($username, $password){
 		
 		try {
 			//connectie met databank
 			$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
 			//query maken
 			$statement = $conn->prepare("select * from user where username = :username");
-			$statement->bindValue(":username", $_username);
+			$statement->bindValue(":username", $username);
 			$statement->execute();
 			$user = $statement->fetch(PDO::FETCH_ASSOC);
 			// var_dump($user);
 
 			$hash = $user['password'];
-			if(password_verify($_password, $hash)){
+			if(password_verify($password, $hash)){
 				return true;
 			} else {
 				return false;
