@@ -8,14 +8,16 @@
 </head>
 <body>
     <nav>
-        <h1>CreateMore</h1>
-        <a href=""><h3>Alle projecten</h3></a>
-        <a href=""><h3>Mijn projecten</h3></a>
+        <h1 class="logo">CreateMore</h1>
+        <a href=""><h3 class="navLink">Alle projecten</h3></a>
+        <a href=""><h3 class="navLink">Mijn projecten</h3></a>
 
-        <input type="text" placeholder="Zoeken..">
+        <input class="search" type="text" placeholder="Zoeken..">
         
-        <p>Welkom, <?php echo $_POST['username']; ?></p>
-        <a href="profile.php"><img class="pic" src="" alt="profielfoto"></a>
+        <p class="welkom">Welkom, gebruiker</p>
+        <div class="imageCropper">
+            <a href="profile.php"><img src="../assets/profile1.png" alt="profielfoto"></a>
+        </div>
     </nav>
 </body>
 </html>
