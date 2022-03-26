@@ -10,91 +10,73 @@ include_once(__DIR__ . "/classes/User.php");
 // email moet op @thomasmore.be eindigen
 
 if (!empty($_POST)) {
-
+$email = $_POST['email'];
+$username = $_POST['username'];
+$password = $_POST['password'];
+$passwordconf = $_POST['password_conf'];
 
 	
-		$user = new User();
+		/*$user = new User();
 		$user->setEmail($_POST['email']);
 		$user->setUsername($_POST['username']);
-		$user->setPassword($_POST['password']);
+		$user->setPassword($_POST['password']);*/
 	
 		
 	
 	
 
 	/*$user->getEmail() = $_POST['email'];*/
-	$username = $_POST['username'];
+	/*$username = $_POST['username'];
 	$password = $_POST['password'];
 	$passwordconf = $_POST['password_conf'];
+	*/
+
 	
-
-
 		
-
-		if (stripos($user->getEmail(), '@student.thomasmore.be') !== false || stripos($user->getEmail(),'@thomasmore.be') !== false) {
-			
-			$conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
-			//$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
-		//");
-
-			$query  = $conn->prepare ("select * from user where email = :email");
-			$query ->bindValue(":email", $user->getEmail());
-
-			$query -> execute();
-			$result = $query->rowCount();
-
-
-
-			if ($result > 0){
-				$error = "Dit e-mail adres bestaat al.";
-			}
-			else {
-		
-		
-		
-
+//Als het wachtwoord hetzelfde is als passwordconf en als ze minstens 6 characters zijn dan wordt je ingelogd
 		if (  $password === $passwordconf && strlen($password)>=6) {
 
-			$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
+				try {
+				$user = new User();
+				$user->setUsername($username);
+				$user->setEmail($email);
+				$user->setPassword($password);
+				$user->SignUp();
+				session_start();
+				$_SESSION['email'] = $user->getEmail();
+				header("Location: logIn.php");
+				}
 
-			");
+				catch (Throwable $error) {
+					$error = $error->getMessage();
+
+					if ($error = "Dit e-mail adres bestaat al") {
+						$errorEmail = $error;
+					}
+					if ($error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen") {
+						$errorEmail = $error;
+					}
+					if ($error = "Wachtwoord moet minstens 6 characters lang zijn") {
+						$errorPass = $error;
+					}
+					/*if ($error = "Gebruikersnaam kan niet leeg zijn") {
+						$errorUser = $error;
+					}*/
+					
+				}
+				/*catch (Throwable $errorUser) {
+
+					$errorUser = $errorUser->getMessage();
+				}*/
+}
+else {
+	$errorPass2 = "Wachtwoorden komen niet overeen";
+}
+
+			
+
+
 	
-			$options = ['cost' => 14,];
-			$password = password_hash($_POST['password'] . "SDF0303", PASSWORD_DEFAULT, $options);
-			$query ->bindValue(":email", $user->getEmail());
-			$query ->bindValue(":username", $username);
-			session_start();
-
-			$query ->bindValue(":password", $password);
-			$query ->execute();
-			header("Location: logIn.php");
-
-
-			
-
-			
-			
-		}
-	
-
-		}
-	}
-	 if (stripos($user->getEmail(), '@student.thomasmore.be') == false && stripos($user->getEmail(),'@thomasmore.be') == false) {
-		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
-		//echo "er staat niks";
-		}
-	 if ($password !== $passwordconf){
-			$errorPass2 = "Wachtwoorden komen niet overeen.";
-			//var_dump("hi");
-
-		}
-	if (strlen($password)<=6)
-		{
-			$errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
-			//echo "wachtwoord komt niet overeen";
-			//return $errorPass;
-
-		}
 	
 
 
@@ -131,9 +113,9 @@ if (!empty($_POST)) {
                     <label for="email">E-mail</label>
                     <input name="email" placeholder="E-mail adres" type="email" required autofocus/>
                 </div>
-				<?php if(isset($error)):?>
+				<?php if(isset($errorEmail)):?>
 				<div class="errorMessage">
-					<p><?php echo $error?></p>
+					<p><?php echo $errorEmail?></p>
 				</div>
 				<?php endif;?>
 
