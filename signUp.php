@@ -49,19 +49,6 @@ $passwordconf = $_POST['password_conf'];
 
 				catch (Throwable $error) {
 					$error = $error->getMessage();
-
-					if ($error = "Dit e-mail adres bestaat al") {
-						$errorEmail = $error;
-					}
-					if ($error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen") {
-						$errorEmail = $error;
-					}
-					if ($error = "Wachtwoord moet minstens 6 characters lang zijn") {
-						$errorPass = $error;
-					}
-					/*if ($error = "Gebruikersnaam kan niet leeg zijn") {
-						$errorUser = $error;
-					}*/
 					
 				}
 				/*catch (Throwable $errorUser) {
@@ -113,9 +100,9 @@ else {
                     <label for="email">E-mail</label>
                     <input name="email" placeholder="E-mail adres" type="email" required autofocus/>
                 </div>
-				<?php if(isset($errorEmail)):?>
+				<?php if(isset($error)):?>
 				<div class="errorMessage">
-					<p><?php echo $errorEmail?></p>
+					<p><?php echo $error?></p>
 				</div>
 				<?php endif;?>
 

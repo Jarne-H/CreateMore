@@ -110,7 +110,7 @@ if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thoma
     }
     else {
         
-        $statement = $conn->prepare("insert into `users` ( email, username, password) VALUES ( :email, :username, :password);");
+        $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
         $statement->bindValue(":username",$username);
         $statement->bindValue(":password",$password);
         $statement->bindValue(":email",$email);
@@ -136,8 +136,8 @@ if (strlen($password)<=6) {
 }
 /*if (empty($username)) {
     throw new Exception("Gebruikersnaam kan niet leeg zijn");
-}
-*/
+}*/
+
 
 
 
