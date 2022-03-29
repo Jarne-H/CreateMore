@@ -1,8 +1,8 @@
 <?php
-    // destroy a cookie?
-    // setcookie("loggedin", "", time()-60*60);
+    // destroy session
     session_start();
     session_destroy();
     
+    //doorsturen naar login
     header("Location: login.php");
 ?>
