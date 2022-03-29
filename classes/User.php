@@ -89,9 +89,9 @@ return $this;
 public static function login($username, $password){
 
     //connectie met db
-    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
+    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
     //query
-    $statement = $conn->prepare("select * from users where username = :username");
+    $statement = $conn->prepare("select * from user where username = :username");
     $statement->bindValue(":username", $username);
     $statement->execute();
     //user connecteren met username
@@ -124,7 +124,7 @@ public function SignUp() {
 
 //Connectie met de databank
 
-$conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
+$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
 
 
 //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
@@ -135,7 +135,7 @@ $username =$this->getUsername();
 
 
 if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thomasmore.be')!== false) {
-    $query = $conn->prepare("select * from users where email = :email");
+    $query = $conn->prepare("select * from user where email = :email");
     $query->bindValue(":email", $email);
     $query->execute();
     $result = $query->rowCount();
@@ -145,7 +145,7 @@ if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thoma
     }
     else {
         
-        $statement = $conn->prepare("insert into `users` ( email, username, password) VALUES ( :email, :username, :password);");
+        $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
         $statement->bindValue(":username",$username);
         $statement->bindValue(":password",$password);
         $statement->bindValue(":email",$email);
