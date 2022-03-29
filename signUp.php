@@ -1,4 +1,7 @@
 <?php
+
+include_once(__DIR__ . "/classes/User.php");
+
 //Pagina verwijst door naar login
 
 //Kijken of velden leeg zijn
@@ -7,84 +10,59 @@
 // email moet op @thomasmore.be eindigen
 
 if (!empty($_POST)) {
+$email = $_POST['email'];
+$username = $_POST['username'];
+$password = $_POST['password'];
+$passwordconf = $_POST['password_conf'];
 
-	$email = $_POST['email'];
-	$options = ['cost' => 14,];
-	$username = $_POST['username'];
+	
+		/*$user = new User();
+		$user->setEmail($_POST['email']);
+		$user->setUsername($_POST['username']);
+		$user->setPassword($_POST['password']);*/
+	
+		
+	
+	
+
+	/*$user->getEmail() = $_POST['email'];*/
+	/*$username = $_POST['username'];
 	$password = $_POST['password'];
 	$passwordconf = $_POST['password_conf'];
+	*/
 
+	
 		
-
-		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be') !== false) {
-			$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-			//$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
-		//");
-
-			$query  = $conn->prepare ("select * from user where email = :email");
-			$query ->bindValue(":email", $email);
-
-			$query -> execute();
-			$result = $query->rowCount();
-
-
-
-			if ($result === 1){
-				$error = "Dit e-mail adres bestaat al.";
-			}
-			else {
-		
-		
-		
-
+//Als het wachtwoord hetzelfde is als passwordconf en als ze minstens 6 characters zijn dan wordt je ingelogd
 		if (  $password === $passwordconf && strlen($password)>=6) {
 
-			$query  = $conn->prepare("insert into user (email, username, password, profilepic, savedPostId, likedPostId, toolsId) VALUES ( :email, :username, :password, NULL, NULL, NULL, NULL)
+				try {
+				$user = new User();
+				$user->setUsername($username);
+				$user->setEmail($email);
+				$user->setPassword($password);
+				$user->SignUp();
+				session_start();
+				$_SESSION['email'] = $user->getEmail();
+				header("Location: login.php");
+				}
 
-			");
-	
-
-			$password = password_hash($_POST['password'] . "SDF0303", PASSWORD_DEFAULT, $options);
-			$query ->bindValue(":email", $email);
-			$query ->bindValue(":username", $username);
-			session_start();
-
-			$query ->bindValue(":password", $password);
-			$query ->execute();
-			header("Location: logIn.php");
-
-
-			
-
-			
-			
-		}
-
-		}
-	}
-		else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
-		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
-		//echo "er staat niks";
-		}
-		else if ($password !== $passwordconf){
-			$errorPass2 = "Wachtwoorden komen niet overeen.";
-			var_dump($errorPass2);
-
-		}
-		else {
-			$errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
-			//echo "wachtwoord komt niet overeen";
-			return $errorPass;
-
-		}
-	
-
+				catch (Throwable $error) {
+					$error = $error->getMessage();
+					
+				}
+				/*catch (Throwable $errorUser) {
+					$errorUser = $errorUser->getMessage();
+				}*/
+}
+else {
+	$errorPass2 = "Wachtwoorden komen niet overeen";
+}
 
 
 
 
 }
-
 
 ?>
 
@@ -93,7 +71,6 @@ if (!empty($_POST)) {
 <head>
 	<title></title>
 	<link rel="stylesheet" href="./CSS/style.css"> 
-	<link rel="stylesheet" type="" href="">
 </head>
 <body>
 	<div id="header">
@@ -106,7 +83,7 @@ if (!empty($_POST)) {
 		<div class="linel"></div>
 		<div class="liner"></div>
 		<div id="form">
-			<form method="post" action>
+			<form method="post" action="">
 		
 				<div class="inputfields">
                     <label for="email">E-mail</label>
@@ -154,10 +131,12 @@ if (!empty($_POST)) {
 				<input type="submit" value="Meld je aan" id="btn">
 				</div>
 
+				<p id="hebaccount">Heb je al een account? <a href="./logIn.php">Login in</a></p>
+
+
 		</div>
 		</form>
 
-		<p id="hebaccount">Heb je al een account? <a href="./logIn.php">Login in</a></p>
 
 	
 </body>
