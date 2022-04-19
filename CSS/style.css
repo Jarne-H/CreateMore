@@ -1,55 +1,43 @@
 body {
-    background-color: #E5E5E5;
-    margin-left: 3em;
-    font-family: roboto;
-    
-    
-    
+  background-color: #e5e5e5;
+  margin-left: 3em;
+  font-family: roboto;
 }
 
-#form div{
-    display: grid;
-   padding-bottom: 1.35em;
-   max-width: 15em;
-   font-size: 0.8em;
-  
-  
+#form div {
+  display: grid;
+  padding-bottom: 1.35em;
+  max-width: 15em;
+  font-size: 0.8em;
 }
-.inputfields input{
-    border-radius: 0.4em;
-    border: 0.8px #042886 solid;
-    margin-top: 0.8em;
-    height: 2em;
-    width: 30em;
-    
-    
+.inputfields input {
+  border-radius: 0.4em;
+  border: 0.8px #042886 solid;
+  margin-top: 0.8em;
+  height: 2em;
+  width: 30em;
 }
 h1 {
-    text-align: center;
-    font-family: roboto;
-    
+  text-align: center;
+  font-family: roboto;
 }
 .errorMessage {
-    margin-top: -1.1em;
-    
-    
+  margin-top: -1.1em;
 }
 .errorMessage p {
-    font-size: smaller;
-    color: red;
-    width: 50em;
-    margin-bottom: -0.4em;
-    
+  font-size: smaller;
+  color: red;
+  width: 50em;
+  margin-bottom: -0.4em;
 }
-#btn {
-    background-color: #042886;
-    margin-top: 5em;
-    border-radius: 0.4em;
-    padding: 0.5em;
-    width: 10em;
-    color: white;
+.btn {
+  background-color: #042886;
+  margin-top: 5em;
+  border-radius: 0.4em;
+  padding: 0.5em;
+  width: 10em;
+  color: white;
 }
 #hebaccount {
-    font-size: small;
+  font-size: small;
 }
-    
