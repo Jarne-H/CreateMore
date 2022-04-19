@@ -48,20 +48,49 @@ $passwordconf = $_POST['password_conf'];
 				}
 
 				catch (Throwable $error) {
-					$error = $error->getMessage();
+					//$error = $error->getMessage();
+					var_dump($error);
+
+					switch ($error = $error->getMessage()) {
+						case "Dit e-mail adres bestaat al":
+							$errorEmail = $error;
+						break;
+
+						case "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen":
+						$errorEmail = $error;
+
+						break;
+
+						/*case "Gebruikersnaam kan niet leeg zijn":
+						$errorUser = $error;
+						break;*/
+						/*case "Wachtwoord moet minstens 6 characters lang zijn":
+							
+
+							$errorPass = $error;
+						/*case "Wachtwoord moet minstens 6 characters lang zijn":
+							$errorPass = $error;*/
+							
+					}
 					
 				}
 				/*catch (Throwable $errorUser) {
 
 					$errorUser = $errorUser->getMessage();
 				}*/
+
 }
-else {
+if ($password !== $passwordconf){
+		
 	$errorPass2 = "Wachtwoorden komen niet overeen";
+
+}
+if (strlen($password)<6) {
+	$errorPass = "Wachtwoord moet minstens 6 characters lang zijn!";
 }
 
-			
-
+		
+}
 
 	
 	
@@ -70,7 +99,7 @@ else {
 
 
 
-}
+
 
 
 
@@ -100,9 +129,9 @@ else {
                     <label for="email">E-mail</label>
                     <input name="email" placeholder="E-mail adres" type="email" required autofocus/>
                 </div>
-				<?php if(isset($error)):?>
+				<?php if(isset($errorEmail)):?>
 				<div class="errorMessage">
-					<p><?php echo $error?></p>
+					<p><?php echo $errorEmail?></p>
 				</div>
 				<?php endif;?>
 

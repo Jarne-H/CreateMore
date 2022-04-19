@@ -129,9 +129,8 @@ if (stripos($email, '@student.thomasmore.be') == false && stripos($email,'@thoma
 
 
 }
-if (strlen($password)<=6) {
+/*if (strlen($password)<6) {
     throw new Exception("Wachtwoord moet minstens 6 characters lang zijn");
-
 
 }
 /*if (empty($username)) {
