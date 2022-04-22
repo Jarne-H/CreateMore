@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 
 
@@ -7,7 +10,7 @@ function resetPassword($email, $recievedCode)
 
     try {
         //connectie met databank
-        $conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
+        $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
         //query maken
         $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
         $statement->bindValue(":email", $email);
@@ -32,36 +35,17 @@ if (!empty($_POST)) {
     $options = ['cost' => 14,];
     $email = $_POST['email'];
     $recievedcode = $_POST['recievedcode'];
-    $newpassword = password_hash($_POST['password'] . "SDF0303", PASSWORD_DEFAULT, $options);
+    $newpassword = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
     $passwordlength = strlen($_POST['password']);
 
     if (resetPassword($email, $recievedcode)) {
         if ($passwordlength >= 6) {
-            $conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
+            $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
             $query = $conn->prepare("UPDATE user SET password = :password WHERE email = :email");
             $query->bindValue(":email", $email);
             $query->bindValue(":password", $newpassword);
-            echo $newpassword;
             $query->execute();
-            header("./index.php");
-
-
-            $to = "horemans.jarne@gmail.com";
-            $subject = "Email Subject";
-
-            $message = 'Dear ' . "Jarne" . ',<br>';
-            $message .= "We welcome you to be part of family<br><br>";
-            $message .= "Regards,<br>";
-
-            // Always set content-type when sending HTML email
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-            // More headers
-            $headers .= 'From: horemans.jarne@duckstyle.be' . "\r\n";
-            $headers .= 'Cc: horemans.jarne@duckstyle.be' . "\r\n";
-
-            mail($to, $subject, $message, $headers);
+            header("Location: ./index.php");
         } else {
             $errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
         }
