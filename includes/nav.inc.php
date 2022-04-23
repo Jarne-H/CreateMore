@@ -1,6 +1,7 @@
 <?php
+
     session_start();
-    $username = $_SESSION['username'];
+    // $username = $_SESSION['username'];
 
 
 ?><!DOCTYPE html>
@@ -19,7 +20,8 @@
 
         <input class="search" type="text" placeholder="Zoeken..">
         
-        <p class="welkom">Welkom, <?php echo $username; ?></p>
+        <!-- <p class="welkom">Welkom, <?php echo $username; ?></p> -->
+        <p class="welkom">Welkom, gebruiker</p>
         <div class="imageCropper">
             <a href="profile.php"><img src="/CreateMore/assets/profile1.png" alt="profielfoto"></a>
         </div>
