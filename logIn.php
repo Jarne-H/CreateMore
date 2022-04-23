@@ -1,18 +1,16 @@
 <?php
-	//data ophalen
+
 	include_once(__DIR__ . "/classes/User.php");
 
-	//sessie starten
 	session_start();
 	session_destroy();
 
 	if (!empty($_POST)) {
     	try {
-			//er is gepost
         	User::login($_POST['username'], $_POST['password']);
     	} 
 		catch (Exception $e) {
-			//error
+			// echo 'Message: ' .$e->getMessage();
 			$error = $e->getMessage();
     	}
 	}
