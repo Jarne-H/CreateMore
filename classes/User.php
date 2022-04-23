@@ -78,8 +78,11 @@ return $this->password;
 public function setPassword($password)
 {
 
-$options  = ['cost' => 12,];
-$password = password_hash($this->password . "SDF0303", PASSWORD_DEFAULT, $options);
+
+// var_dump($password);
+// exit();
+$options  = ['cost' => 12];
+$password = password_hash($password, PASSWORD_DEFAULT, $options);
 $this->password = $password;
 
 return $this;
@@ -89,29 +92,31 @@ return $this;
 public static function login($username, $password){
 
     //connectie met db
-    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
     //query
-    $statement = $conn->prepare("select * from user where username = :username");
+    $statement = $conn->prepare("select * from users where username = :username");
     $statement->bindValue(":username", $username);
     $statement->execute();
     //user connecteren met username
     $user = $statement->fetch(PDO::FETCH_ASSOC);
     if(!$user){
-        //error
         throw new Exception('Deze gebruiker bestaat niet.');
     }
+    var_dump($user);
 
     //wachtwoord verifiëren
     $hash = $user["password"];
     if(password_verify($password, $hash)){
         // login
+        echo "oke";
         session_start();
+        
         $_SESSION["username"] = $username;
         //doorsturen naar index.php (empty state)
         header("Location: index.php");
     }
     else{
-        //error
+        echo "niet oke";
         throw new Exception('Gebruikersnaam en wachtwoord komen niet overeen.');
     }
 
@@ -124,7 +129,7 @@ public function SignUp() {
 
 //Connectie met de databank
 
-$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+$conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
 
 
 //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
@@ -135,7 +140,7 @@ $username =$this->getUsername();
 
 
 if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thomasmore.be')!== false) {
-    $query = $conn->prepare("select * from user where email = :email");
+    $query = $conn->prepare("select * from users where email = :email");
     $query->bindValue(":email", $email);
     $query->execute();
     $result = $query->rowCount();
@@ -144,8 +149,10 @@ if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thoma
         throw new Exception("Dit e-mail adres bestaat al");
     }
     else {
-        
-        $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
+        var_dump($username);
+        var_dump($password);
+
+        $statement = $conn->prepare("insert into `users` ( email, username, password) VALUES ( :email, :username, :password);");
         $statement->bindValue(":username",$username);
         $statement->bindValue(":password",$password);
         $statement->bindValue(":email",$email);
@@ -175,7 +182,78 @@ if (strlen($password)<=6) {
 
 }
 
+// public function canLogin($username, $password){ 
 
+//     $username =$this->getUsername();
+//     $password = $this->getPassword();
+
+
+
+//     try {
+//         $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
+//         $statement = $conn->prepare("select * from users where username = :username");
+//         $statement->bindValue(":username", $username); 	// sql injectie = prepare en bind
+//         $statement->execute();
+//         $user = $statement->fetch(PDO::FETCH_ASSOC);
+//         // var_dump($user)
+//         $hash = $user['password'];
+//         if(password_verify($password, $hash)) {
+//             return true;
+//         }
+//         else {
+//             return false;
+//         }
+        
+//     }
+//     catch(Throwable $e) {
+//         echo $e->getMessage();
+//         return false;
+//     }
+
+    
+// }
+
+
+// public static function login($username, $password){
+
+//     // $conn = Db::getConnection();
+//     $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
+//     $statement = $conn->prepare("select * from users where username = :username");
+//     $statement->bindValue(":username", $username);
+//     $statement->execute();
+//     // get user connected to email
+//     $user = $statement->fetch(PDO::FETCH_ASSOC);
+//     // var_dump($user);
+//     if(!$user){
+//         throw new Exception('This user does not exist');
+//     }
+
+//         $hash = $user['password'];
+//         if(password_verify($password, $hash)) {
+//             echo "het klopt";
+//             return true;
+//         }
+//         else {
+//             echo "komt niet overeen";
+//             return false;
+//         }
+
+//     //verify password
+//     // $hash = $user["password"];
+//     // if(password_verify($password, $hash)){
+//     //     // login
+//     //     session_start();
+//     //     // $_SESSION["userid"] = $user['username'];
+//     //     $_SESSION["username"] = $username;
+//     //     $_SESSION["password"] = $password;
+//     //     // $_SESSION["userId"] = $user['userId'];
+//     //     // $_SESSION["userRole"] = $user['userRole'];
+//     //     header("Location: index.php");
+//     // }else{
+//     //     throw new Exception('Incorrect password');
+//     // }
+
+// }
 
 
 
