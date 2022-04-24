@@ -1,6 +1,8 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
+//include_once(__DIR__ . "/classes/User.php");
+include_once("bootstrap.php");
+
 
 //Pagina verwijst door naar login
 
@@ -61,6 +63,9 @@ $passwordconf = $_POST['password_conf'];
 
 						break;
 
+						case "Deze gebruikersnaam bestaat al":
+							$errorUser = $error;
+							
 						/*case "Gebruikersnaam kan niet leeg zijn":
 						$errorUser = $error;
 						break;*/

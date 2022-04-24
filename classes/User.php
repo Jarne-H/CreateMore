@@ -14,10 +14,7 @@ private $options;
 /**
  * Get the value of username
  */ 
-public function getUsername()
-{
-return $this->username;
-}
+
 
 /**
  * Set the value of username
@@ -29,6 +26,10 @@ public function setUsername($username)
 $this->username = $username;
 
 return $this;
+}
+public function getUsername()
+{
+return $this->username;
 }
 
 /**
@@ -79,7 +80,7 @@ public function setPassword($password)
 {
 
 $options  = ['cost' => 12,];
-$password = password_hash($this->password . "SDF0303", PASSWORD_DEFAULT, $options);
+$password = password_hash($password, PASSWORD_DEFAULT, $options);
 $this->password = $password;
 
 return $this;
@@ -89,7 +90,7 @@ public function SignUp() {
 
 //Connectie met de databank
 
-$conn = new PDO('mysql:host=localhost;dbname=createmore', "root", "root");
+$conn = DB::getInstance();
 
 
 //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
@@ -101,12 +102,20 @@ $username =$this->getUsername();
 
 if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thomasmore.be')!== false) {
     $query = $conn->prepare("select * from user where email = :email");
+    $query2 = $conn->prepare("select * from user where username = :username");
     $query->bindValue(":email", $email);
+    $query2->bindValue(":username",$username);
     $query->execute();
+    $query2->execute();
+    $result2 = $query2->rowCount();
     $result = $query->rowCount();
 
     if ($result > 0) {
         throw new Exception("Dit e-mail adres bestaat al");
+    }
+    if ($result2 > 0) {
+        throw new Exception("Deze gebruikersnaam bestaat al");
+       // echo "hi";
     }
     else {
         
@@ -124,6 +133,7 @@ if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thoma
 
 
 }
+
 if (stripos($email, '@student.thomasmore.be') == false && stripos($email,'@thomasmore.be') == false){
     throw new Exception("E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen");
 
@@ -142,6 +152,31 @@ if (stripos($email, '@student.thomasmore.be') == false && stripos($email,'@thoma
 
 
 
+
+
+
+
+
+
+}
+public function profile() {
+
+    $conn = DB::getInstance();
+
+    $email = $this->getEmail();
+    $password = $this->getPassword();
+    $username =$this->getUsername();
+
+    $query = $conn->prepare("select * from user where email = :email and password = :password and username = :username");
+    $query->bindValue(":email", $email);
+    $query->bindValue(":username", $username);
+    $query->bindValue(":password", $password);
+
+ $query->execute();
+
+ $result = $query->fetchAll();
+
+    return $result;
 
 
 
