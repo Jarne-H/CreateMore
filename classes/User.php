@@ -3,7 +3,7 @@ class User {
 private $username;
 private $email;
 private $password;
-private $options;
+//private $options;
 
 
 
@@ -85,6 +85,40 @@ $this->password = $password;
 
 return $this;
 }
+public static function login($username, $password){
+
+    //connectie met db
+    $conn = DB::getInstance();
+    //query
+    $statement = $conn->prepare("select * from user where username = :username");
+    $statement->bindValue(":username", $username);
+    $statement->execute();
+    //user connecteren met username
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    if(!$user){
+        throw new Exception('Deze gebruiker bestaat niet.');
+    }
+    var_dump($user);
+
+    //wachtwoord verifiëren
+    $hash = $user["password"];
+    if(password_verify($password, $hash)){
+        // login
+        echo "oke";
+        session_start();
+
+        $_SESSION["username"] = $username;
+        //doorsturen naar index.php (empty state)
+        header("Location: index.php");
+    }
+    else{
+        echo "niet oke";
+        throw new Exception('Gebruikersnaam en wachtwoord komen niet overeen.');
+    }
+
+}
+
+
 
 public function SignUp() {
 

@@ -1,11 +1,14 @@
 body {
-    background-color: #E5E5E5;
+    /* background-color: #E5E5E5; */
+    background-color: white;
     margin-left: 3em;
     font-family: roboto;
     
     
     
 }
+
+/* formulier */
 
 #form div{
     display: grid;
@@ -43,7 +46,7 @@ h1 {
 }
 #btn {
     background-color: #042886;
-    margin-top: 5em;
+    margin-top: 4em;
     border-radius: 0.4em;
     padding: 0.5em;
     width: 10em;
@@ -52,6 +55,101 @@ h1 {
 #hebaccount {
     font-size: small;
 }
-#save {
-    padding: 1em;
+    
+
+/* startpagina, navigatie (nav.inc.php) */
+nav {
+    display: inline-block;
+    /* margin: 0; */
+    /* margin-right: 10px; */
+    padding: 2em;
+    width: 100%;
+}
+
+.logo {
+    display: inline;
+    text-align: left;
+    font-family: roboto;
+    /* width: 100px; */
+    margin-right: 5em;
+}
+
+.navLink {
+    display: inline;
+    text-decoration: none;
+    /* width: 100px; */
+    margin-right: 4em;
+    
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #042886;
+}
+
+a:active {
+    color: #042886;
+}
+
+.search {
+    display: inline;
+    border: none;
+    border-radius: 0.4em;
+    background-color: #E9E9E9;
+    margin-right: 4em;
+}
+
+.welkom {
+    display: inline;
+    width: 100px;
+    margin-right: 1em;
+}
+
+.imageCropper {
+    display: inline;
+    margin-right: 4em;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
+
+.logOut {
+    display: inline;
+     width: 100px;
+     margin-right: 4em;
+}
+
+
+/* startpagina (index.php) */
+
+.titel {
+    margin-top: 5em;
+}
+
+.subtitel {
+    text-align: center;
+    font-size: 1.6em;
+}
+
+.buttonCenter {
+    margin: 0;
+    margin-top: 2em;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
