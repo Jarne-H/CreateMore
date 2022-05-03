@@ -4,21 +4,19 @@ abstract class DB {
         private static $conn;
 
         private static function getConfig(){
-            // get the config file
+            //Hier vind je de config file waar de databank gegevens in staan
             return parse_ini_file(__DIR__ . "/../config/config.ini");
         }
         
 
         public static function getInstance() {
             if(self::$conn != null) {
-                // REUSE our connection
-                //echo "🚀";
+                //Als er een connectie is dan wordt deze gebruikt en gaat er geen nieuwe telkens worden aangemaakt
+            
                 return self::$conn;
             }
             else {
-                // CREATE a new connection
-
-                // get the configuration for our connection from one central settings file
+                //Als er nog geen connectie is, dan wordt hier een nieuwe connecte aangemaakt met de gegevens vanuit de config file
                 $config = self::getConfig();
                 $database = $config['database'];
                 $user = $config['user'];
