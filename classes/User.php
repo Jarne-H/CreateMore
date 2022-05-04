@@ -92,7 +92,8 @@ return $this;
 public static function login($username, $password){
 
     //connectie met db
-    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+    // $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+    $conn = DB::getInstance();
     //query
     $statement = $conn->prepare("select * from user where username = :username");
     $statement->bindValue(":username", $username);
@@ -129,8 +130,8 @@ public function SignUp() {
 
 //Connectie met de databank
 
-$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-
+// $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+$conn = DB::getInstance();
 
 //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
 
