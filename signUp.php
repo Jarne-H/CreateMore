@@ -1,6 +1,7 @@
 <?php
 
-include_once(__DIR__ . "/classes/User.php");
+// include_once(__DIR__ . "/classes/User.php");
+include_once("bootstrap.php");
 
 //Pagina verwijst door naar login
 
