@@ -4,7 +4,6 @@
 	include_once("bootstrap.php");
 
 	session_start();
-	session_destroy();
 
 	if (!empty($_POST)) {
     	try {
