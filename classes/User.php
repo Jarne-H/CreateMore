@@ -103,13 +103,13 @@ public static function login($username, $password){
     if(!$user){
         throw new Exception('Deze gebruiker bestaat niet.');
     }
-    var_dump($user);
+    // var_dump($user);
 
     //wachtwoord verifiëren
     $hash = $user["password"];
     if(password_verify($password, $hash)){
         // login
-        echo "oke";
+        // echo "oke";
         session_start();
 
         $_SESSION["username"] = $username;
@@ -117,7 +117,7 @@ public static function login($username, $password){
         header("Location: index.php");
     }
     else{
-        echo "niet oke";
+        // echo "niet oke";
         throw new Exception('Gebruikersnaam en wachtwoord komen niet overeen.');
     }
 
@@ -150,8 +150,8 @@ if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thoma
         throw new Exception("Dit e-mail adres bestaat al");
     }
     else {
-        var_dump($username);
-        var_dump($password);
+        // var_dump($username);
+        // var_dump($password);
 
         $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
         $statement->bindValue(":username",$username);
