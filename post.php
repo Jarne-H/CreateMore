@@ -6,58 +6,70 @@ error_reporting(0);
 include_once(__DIR__ . "./includes/nav.inc.php");
 include_once("bootstrap.php");
 
-
-$msg = "";
-
-// If upload button is clicked ...
 if (isset($_POST['upload'])) {
+    try {
+        // var_dump($title);
+        // var_dump($description);
+        // var_dump($tags);
+        echo "oké!";
+        Post::uploadPost($_POST['title'], $_POST['description'], $_POST['tags']);
+        // header("Location:index.php");
+    } catch (Exception $e) {
+        echo "niet oké!";
+        $error = $e->getMessage();
+    }
 
-    $title = $_POST['title'];
-	$description = $_POST['description'];
-	$tags = $_POST['tags'];
+
+}
+
+// $msg = "";
+
+// // If upload button is clicked ...
+// if (isset($_POST['upload'])) {
+
+//     $title = $_POST['title'];
+// 	$description = $_POST['description'];
+// 	$tags = $_POST['tags'];
 
 
-	$filename = $_FILES["uploadfile"]["name"];
-	$tempname = $_FILES["uploadfile"]["tmp_name"];	
-		$folder = "image/".$filename;
+// 	$filename = $_FILES["uploadfile"]["name"];
+// 	$tempname = $_FILES["uploadfile"]["tmp_name"];	
+// 		$folder = "image/".$filename;
 		
-        //connectie met db
-        $conn = DB::getInstance();
+//         //connectie met db
+//         $conn = DB::getInstance();
         
-        //query
-        $statement = $conn->prepare("INSERT INTO `post` (filename, title, description, tags) VALUES ('$filename', '$title', '$description', '$tags')");
-        $statement->bindValue(":filename", $filename);
-        $statement->bindValue(":title", $title);
-        $statement->bindValue(":description", $description);
-        $statement->bindValue(":tags", $tags);
+//         //query
+//         $statement = $conn->prepare("INSERT INTO `post` (filename, title, description, tags) VALUES ('$filename', '$title', '$description', '$tags')");
+//         $statement->bindValue(":filename", $filename);
+//         $statement->bindValue(":title", $title);
+//         $statement->bindValue(":description", $description);
+//         $statement->bindValue(":tags", $tags);
 
-		// Execute query
-		// mysqli_query($conn, $sql);
-        $statement->execute();
+// 		// Execute query
+// 		// mysqli_query($conn, $sql);
+//         $statement->execute();
 
 		
-		// Now let's move the uploaded image into the folder: image
-		if (move_uploaded_file($tempname, $folder)) {
-			$msg = "Image uploaded successfully";
-		}else{
-			$msg = "Failed to upload image";
-	}
-}
+// 		// Now let's move the uploaded image into the folder: image
+// 		if (move_uploaded_file($tempname, $folder)) {
+// 			$msg = "Image uploaded successfully";
+// 		}else{
+// 			$msg = "Failed to upload image";
+// 	}
+// }
 
-// $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-$conn = DB::getInstance();
-$statement = $conn->prepare("SELECT * FROM post");
-$statement->execute();
+// // $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+// $conn = DB::getInstance();
+// $statement = $conn->prepare("SELECT * FROM post");
+// $statement->execute();
 
-// $result = mysqli_query($conn, "SELECT * FROM image");
-while($data = mysqli_fetch_array($result))
-{
-//toont foto's
-	?>
-<img src="<?php echo $data['Filename']; ?>">
+// // $result = mysqli_query($conn, "SELECT * FROM image");
+// while($data = mysqli_fetch_array($result))
+// {
+// //toont foto's
 
-<?php
-}
+// }
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
