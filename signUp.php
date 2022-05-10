@@ -19,7 +19,8 @@ if (!empty($_POST)) {
 		");
 
 		if (stripos($email, '@student.thomasmore.be') !== false || stripos($email,'@thomasmore.be') !== false) {
-			$query  = $conn->prepare ("select * from user where email = '$email'");
+			$query  = $conn->prepare ("select * from user where email = :email");
+			$query->bindValue(":email", $email);
 			$query -> execute();
 			$result = $query->rowCount();
 
@@ -28,6 +29,16 @@ if (!empty($_POST)) {
 				$error = "Dit e-mail adres bestaat al.";
 			}
 			else {
+				$query  = $conn->prepare ("select * from user where username = :username");
+				$query->bindValue(":username", $username);
+				$query -> execute();
+				$result = $query->rowCount();
+	
+	
+				if ($result === 1){
+					$error = "Deze username bestaat al.";
+				}
+				else {
 		
 		
 		
@@ -50,6 +61,7 @@ if (!empty($_POST)) {
 
 		}
 	}
+}
 	else if (stripos($email, '@student.thomasmore.be') == false || stripos($email,'@thomasmore.be') == false) {
 		$error = "E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen.";
 	}
