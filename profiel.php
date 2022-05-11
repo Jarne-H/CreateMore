@@ -48,31 +48,31 @@ $result = $profiel->getInfo($myUserName);
 
         <label for="gnaam">Gebruikersnaam</label>
         <br>
-        <input type="text" id="gnaam" name="gnaam" value="<?php echo $result['username']; ?>" disabled><br><br>
+        <input type="text" id="gnaam" name="gnaam" value="<?php echo htmlspecialchars($result['username']); ?>" disabled><br><br>
         
         <label for="hMail">Hoofde-mailadres</label>
         <br>
-        <input type="text" id="hMail" name="hmail" value="<?php echo $result['email']; ?>" disabled><br><br>
+        <input type="text" id="hMail" name="hmail" value="<?php echo htmlspecialchars($result['email']); ?>" disabled><br><br>
       
         <label for="tweedeEmail">Tweede e-mailadres</label>
         <br>
-        <input type="email" id="tweedeEmail" name="tweedeEmail" value="<?php echo $result['tweedeEmail']; ?>"><br><br>
+        <input type="email" id="tweedeEmail" name="tweedeEmail" value="<?php echo htmlspecialchars($result['tweedeEmail']); ?>"><br><br>
         
         <label for="bio">Bio</label>
         <br>
-        <input type="text" id="bio" name="bio" value="<?php echo $result['bio']; ?>"><br><br>
+        <input type="text" id="bio" name="bio" value="<?php echo htmlspecialchars($result['bio']); ?>"><br><br>
 
         <label for="opleiding">Opleiding</label>
         <br>
-        <input type="text" id="opleiding" name="opleiding" value="<?php echo $result['opleiding']; ?>"><br><br>
+        <input type="text" id="opleiding" name="opleiding" value="<?php echo htmlspecialchars($result['opleiding']); ?>"><br><br>
 
         <label for="facebook">Facebook</label>
         <br>
-        <input type="text" id="facebook" name="facebook" value="<?php echo $result['facebook']; ?>"><br><br>
+        <input type="text" id="facebook" name="facebook" value="<?php echo htmlspecialchars($result['facebook']); ?>"><br><br>
         
         <label for="instagram">Instagram</label>
         <br>
-        <input type="text" id="instagram" name="instagram" value="<?php echo $result['instagram']; ?>"><br><br>
+        <input type="text" id="instagram" name="instagram" value="<?php echo htmlspecialchars($result['instagram']); ?>"><br><br>
 
         <label for="huidig-ww">Huidig Wachtwoord</label>
         <br>
