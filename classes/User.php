@@ -84,7 +84,7 @@ public function setPassword($password){
 public static function login($username, $password){
 
     //connectie met db
-    $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+    $conn = DB::getInstance();
     //query
     $statement = $conn->prepare("select * from user where username = :username");
     $statement->bindValue(":username", $username);
@@ -120,7 +120,7 @@ public static function requestResetCode($email){
     
     try {
         //connectie met databank
-        $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+        $conn = DB::getInstance();
         //query maken
         $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
         $statement->bindValue(":email", $email);
@@ -182,7 +182,7 @@ public static function requestResetCode($email){
             $sendMail = smtpmailer($email, $from, $name, $subj, $body, $smtpServer, $smtpUsername, $smtpPassword, $smtpPort);
             echo $sendMail;
 
-            $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+            $conn = DB::getInstance();
             $statement = $conn->prepare("UPDATE user SET verificationcode = :verificationcode WHERE email = :email");
             $statement->bindValue(":email", $email);
             $statement->bindValue(":verificationcode", $requestCode);
@@ -202,7 +202,7 @@ public static function deleteProfile($username){
     $null = NULL;
     try {
         //connectie met databank
-        include_once("classes\DB.php");
+        $conn = DB::getInstance();
         //query maken
         $statement = $conn->prepare("UPDATE user SET username = :deletedname, password = :null,profilepic = :null , email = :null WHERE username = :username");
         $statement->bindValue(":username", $username);
@@ -219,7 +219,7 @@ public static function deleteProfile($username){
 public static function resetPassword($email, $recievedCode){
         try {
             //connectie met databank
-            include_once("classes\DB.php");
+            $conn = DB::getInstance();
             //query maken
             $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
             $statement->bindValue(":email", $email);
@@ -239,7 +239,7 @@ public static function resetPassword($email, $recievedCode){
         }
     }
 public static function resetUserPassword($email, $newpassword){
-            $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
+            $conn = DB::getInstance();
             $statement = $conn->prepare("UPDATE user SET password = :password, verificationcode = NULL WHERE email = :email");
             $statement->bindValue(":email", $email);
             $statement->bindValue(":password", $newpassword);
@@ -253,7 +253,7 @@ public function SignUp() {
 
     //Connectie met de databank
 
-    include_once("classes\DB.php");
+    $conn = DB::getInstance();
 
 
     //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
