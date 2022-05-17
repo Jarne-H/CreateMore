@@ -1,7 +1,13 @@
 <?php 
 
 include_once(__DIR__ . "./includes/nav.inc.php");
-
+//session_start();
+if (isset($_SESSION['username'])){
+  echo "welcome" . $_SESSION['username'];
+}
+else {
+  header("location: logIn.php");
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -17,10 +23,11 @@ include_once(__DIR__ . "./includes/nav.inc.php");
   
 
   <div class="buttonCenter">
-      <input type="submit" value="Deel project" id="btn">
+      <a href="post.php"><button>deel project</button></a>
   </div>
 
 
 
 </body>
 </html>
+

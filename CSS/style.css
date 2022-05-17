@@ -3,7 +3,7 @@ body {
     background-color: white;
     margin-left: 3em;
     font-family: roboto;
-    
+    max-width: 100%;
     
     
 }
@@ -153,3 +153,48 @@ img {
     transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.feed {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:1em;
+    margin-left: 6em;
+    margin-top: 0em;
+}
+#feed-image {
+    background-color: grey;
+    max-width: 11em;
+    max-height: 10em;
+    margin-top: 2em;
+}
+#leftButton {
+    position: fixed;
+    left: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+.arrow {
+    max-width:50%;
+    max-height: 10%;
+}
+
+#rightButton {
+    position: fixed;
+    right: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+#download {
+    width: 100px;
+    height: 100px;
+    background-color: #042886;
+    position: fixed;
+    right: 4%;
+    top: 79%;
+    border-radius: 100%;
+    padding: 1em;
+
+}
+

@@ -45,7 +45,7 @@ $passwordconf = $_POST['password_conf'];
 				$user->setPassword($password);
 				$user->SignUp();
 				session_start();
-				$_SESSION['email'] = $user->getEmail();
+				$_SESSION['username'] = $user->getUsername();
 				header("Location: logIn.php");
 				}
 
