@@ -160,7 +160,14 @@ img {
     gap:1em;
     margin-left: 6em;
     margin-top: 0em;
+    max-height: 100%;
+    
 }
+#body {
+    max-lines: 4;
+
+}
+
 #feed-image {
     background-color: grey;
     max-width: 11em;
@@ -197,4 +204,35 @@ img {
     padding: 1em;
 
 }
+#like {
+   max-width: 0.8em;
+   
+}
+#comment {
+    max-width: 0.8em;
+}
+.likes   {
+    display: grid;
+   grid-template-columns: repeat(2,1fr);
+    margin-left: -0.9em;
+    font-family: roboto;
+
+}
+#detailPage {
+    position: relative;
+    left: 25%;
+    margin-top: -2%;
+
+
+}
+#detailPage img{
+
+    width: 50%;
+    height: 60%;
+    margin-top: 2em;
+
+
+}
+
+
 

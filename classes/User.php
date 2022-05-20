@@ -4,6 +4,15 @@ private $username;
 private $email;
 private $password;
 //private $options;
+//Private eigenschappen kunnen niet buiten de klasse aangesproken worden.
+//constructor is niet handnig om meerdere taken uit te laten voeren
+//Setters: publieke functies, anders kan je ze niet buiten de klasse aanroepen 
+//Om waarde te zetten
+//getters: geeft waarde van huidig object. Je kan enkel publieke functies/eigenschappen aanspreken.
+//Nu kan je makkelijk controles uitvoeren
+
+//Post: 
+//get: Je krijgt je informatie in de url. input velden hebben een name nodig!
 
 
 
@@ -79,7 +88,7 @@ return $this->password;
 public function setPassword($password)
 {
 
-$options  = ['cost' => 12,];
+$options  = ['cost' => 14,];
 $password = password_hash($password, PASSWORD_DEFAULT, $options);
 $this->password = $password;
 
@@ -101,6 +110,8 @@ public static function login($username, $password){
     var_dump($user);
 
     //wachtwoord verifiëren
+    //Haald het password en de hash uit de database en kijkt of dit matcht, als het matcht dan gaat het verder en log je in
+    
     $hash = $user["password"];
     if(password_verify($password, $hash)){
         // login
@@ -124,55 +135,55 @@ public function SignUp() {
 
 //Connectie met de databank
 
-$conn = DB::getInstance();
+    $conn = DB::getInstance();
 
 
 //Als email thomas more in heeft dan wordt er gekeken, dan wordt getEmail aangeroepen
 
-$email = $this->getEmail();
-$password = $this->getPassword();
-$username =$this->getUsername();
+    $email = $this->getEmail();
+    $password = $this->getPassword();
+    $username =$this->getUsername();
 
 
-if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thomasmore.be')!== false) {
-    $query = $conn->prepare("select * from user where email = :email");
-    $query2 = $conn->prepare("select * from user where username = :username");
-    $query->bindValue(":email", $email);
-    $query2->bindValue(":username",$username);
-    $query->execute();
-    $query2->execute();
-    $result2 = $query2->rowCount();
-    $result = $query->rowCount();
+        if (stripos($email, '@student.thomasmore.be')!== false|| stripos($email, '@thomasmore.be')!== false) {
+            $query = $conn->prepare("select * from user where email = :email");
+            $query2 = $conn->prepare("select * from user where username = :username");
+            $query->bindValue(":email", $email);
+            $query2->bindValue(":username",$username);
+            $query->execute();
+            $query2->execute();
+            $result2 = $query2->rowCount();
+            $result = $query->rowCount();
 
-    if ($result > 0) {
-        throw new Exception("Dit e-mail adres bestaat al");
-    }
-    if ($result2 > 0) {
-        throw new Exception("Deze gebruikersnaam bestaat al");
-       // echo "hi";
-    }
-    else {
-        
-        $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
-        $statement->bindValue(":username",$username);
-        $statement->bindValue(":password",$password);
-        $statement->bindValue(":email",$email);
+                if ($result > 0) {
+                    throw new Exception("Dit e-mail adres bestaat al");
+                }
+                if ($result2 > 0) {
+                    throw new Exception("Deze gebruikersnaam bestaat al");
+                // echo "hi";
+                }
+        else {
+                    
+                    $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
+                    $statement->bindValue(":username",$username);
+                    $statement->bindValue(":password",$password);
+                    $statement->bindValue(":email",$email);
 
-        $result = $statement->execute();
+                    $result = $statement->execute();
 
-        return $result;
+                    return $result;
 
-    }
-
-
-
-}
-
-if (stripos($email, '@student.thomasmore.be') == false && stripos($email,'@thomasmore.be') == false){
-    throw new Exception("E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen");
+                }
 
 
-}
+
+            }
+
+            if (stripos($email, '@student.thomasmore.be') == false && stripos($email,'@thomasmore.be') == false){
+                throw new Exception("E-mail adres moet op @student.thomasmore.be of @thomasmore.be eindigen");
+
+
+            }
 /*if (strlen($password)<6) {
     throw new Exception("Wachtwoord moet minstens 6 characters lang zijn");
 

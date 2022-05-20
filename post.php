@@ -1,63 +1,50 @@
 <?php
-error_reporting(0);
-?>
-<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 include_once(__DIR__ . "./includes/nav.inc.php");
 include_once("bootstrap.php");
 
+// include_once("bootstrapsession_start();.php");
 
-$msg = "";
+// session_start();
 
-// If upload button is clicked ...
-if (isset($_POST['upload'])) {
-
-    $title = $_POST['title'];
-	$description = $_POST['description'];
-	$tags = $_POST['tags'];
+// $post = new Post();
 
 
-	$filename = $_FILES["uploadfile"]["name"];
-	$tempname = $_FILES["uploadfile"]["tmp_name"];	
-		$folder = "image/".$filename;
-		
-        //connectie met db
-        $conn = DB::getInstance();
-        
-        //query
-        $statement = $conn->prepare("INSERT INTO `post` (filename, title, description, tags) VALUES (:filename, :title, :description, :tags)");
-        $statement->bindValue(":filename", $filename);
-        $statement->bindValue(":title", $title);
-        $statement->bindValue(":description", $description);
-        $statement->bindValue(":tags", $tags);
+    //wanneer op "Post submit" geduwd wordt
+    if(!empty($_POST)) {
+		try {
 
-		// Execute query
-		// mysqli_query($conn, $sql);
-        $statement->execute();
 
-		
-		// Now let's move the uploaded image into the folder: image
-		if (move_uploaded_file($tempname, $folder)) {
-			$msg = "Image uploaded successfully";
-		}else{
-			$msg = "Failed to upload image";
+			// $filename = $_FILES['uploadfile'];
+			$title = $_POST['title'];
+			$description = $_POST['description'];
+			$tags = $_POST['tags'];
+
+			var_dump($title);
+			var_dump($description);
+			var_dump($tags);
+			echo "oke!";
+
+			// $tags = $_POST['tags'];
+			// $tags = explode(" ", $tags);
+			$post = new Post();
+			$post->setTitle($title);
+			$post->setDescription($description);
+			$post->setTags($tags);
+			$post->addPost();
+    } catch (\Throwable $th) {
+		//toont errors bij een lege description of image, of bij een fout filetype
+		$error = $th->getMessage();
 	}
 }
 
-// $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-$conn = DB::getInstance();
-$statement = $conn->prepare("SELECT * FROM post");
-$statement->execute();
 
-// $result = mysqli_query($conn, "SELECT * FROM image");
-while($data = mysqli_fetch_array($result))
-{
-//toont foto's
-	?>
-<img src="<?php echo $data['Filename']; ?>">
 
-<?php
-}
+
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,9 +68,10 @@ while($data = mysqli_fetch_array($result))
 		<div id="form">
 			<form action="" method="post" enctype="multipart/form-data">
 			
-			<div class="square">
+			<!-- <div class="square"> -->
 				<input name="uploadfile" type="file" id="upload-image" required/>
-			</div>
+			<!-- </div> -->
+			<!-- <img src=" <?php echo 'image/'.$filename; ?> ">  -->
 
 
 			<div class="fields">
@@ -92,6 +80,7 @@ while($data = mysqli_fetch_array($result))
 					<input name="title" type="text" required/>
 				</div>
 
+				<!-- <img src="<?php echo "image/Artboard 11.png"?>" alt=""> -->
 
 				<div class="inputfields">
 					<label for="description">Beschrijving</label>

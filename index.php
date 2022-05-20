@@ -4,6 +4,7 @@ include_once(__DIR__ . "./includes/nav.inc.php");
 //session_start();
 if (isset($_SESSION['username'])){
   echo "welcome" . $_SESSION['username'];
+  header("location: feed.php");
 }
 else {
   header("location: logIn.php");
