@@ -15,7 +15,7 @@
 <body>
     <nav>
         <h1 class="logo">CreateMore</h1>
-        <a href=""><h3 class="navLink">Alle projecten</h3></a>
+        <a href="./feed.php?p=1"><h3 class="navLink">Alle projecten</h3></a>
         <a href=""><h3 class="navLink">Mijn projecten</h3></a>
 
         <input class="search" type="text" placeholder="Zoeken..">

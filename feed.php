@@ -19,15 +19,17 @@ if (isset($_GET['p'])) {
 $pagina = $_GET['p'];
 $limit = $limit * $pagina;
 //var_dump($limit);
-
 }
 //var_dump($feed);
     if (isset($_SESSION['username'])) {
-        $feed = [];
+        //$feed = [];
     
         $post = new feed();
         $feed = $post->LoggedIn($limit);
-    
+        //$comment = new comment();
+        //$c = $comment->saveComment();
+        
+
     while(count($feed)> 12) {
 
         //rest van afbeeldingen wordt ingeladen op de pagina.
@@ -35,7 +37,7 @@ $limit = $limit * $pagina;
 
 
     }
-    echo "Logged in";
+   // echo "Logged in";
         //Als je op de pijltjes drukt dan ga je naar volgende of vorige pagina, als er meer dan 12 submission zijn dan gaan ze rechtsreeks naar de volgende pagina.
         
 
@@ -45,15 +47,16 @@ else {
 
         $post = new feed();
 $feed = $post->notLoggedIn($limit);
+
 while(count($feed)> 12) {
 
     //rest van afbeeldingen wordt ingeladen op de pagina.
     $feed = array_slice($feed, 12);
 
-
 }
 
-echo "not logged in";
+
+//echo "not logged in";
 }
 
 
@@ -77,23 +80,23 @@ echo "not logged in";
     <div class="feed">
 
     <!-- In de div feed komen er images, titels, descriptions enz-->
-    
-    <?php foreach($feed as $key => $f): ;?>
-    <div id="feed-post">
-    <?php if (isset($_SESSION['email'])) :?>
-        
-        <h3><?php echo htmlspecialchars($f['username'])?></h3>
-        <?php endif; ?>
-        <a href="feedDetail.php?post=<?php echo $key ?>">
-        <img id="feed-image" src=<?php echo  htmlspecialchars($f['filename'])?> alt="Foto">
-        </a>
+        <?php foreach($feed as $f): ;?>
+        <?php if (isset($_SESSION['username'])): ?>
+            <div id="feed-post">
+                <a href="feedDetail.php?post=<?php  echo $f['id']; ?>"> <?php endif;?>
+                    <img id="feed-image" src="<?php echo htmlspecialchars($f['filename'])?>" alt="Foto">
+                    <?php if (!empty($_SESSION['username'])):?> </a> <?php endif;?>
         <?php if (isset($_SESSION['username'])):?>
             <div class="likes">
-        <p><span><?php echo 0?></span><img id="like" src="actie.png" alt="like"></p>
-        <p><span><?php echo 0?></span><img id="comment"src="comment.png" alt="comment"></p>
+                <p><span class="amount"><?php $like = like::getAmount($f['id']); echo $like;?></span><img id="like" src="actie.png" alt="like"></p>
+                <p><span class="amountOfComments"><?php $comment = comment::amountOfComments($f['id']); echo $comment;
+            ?></span><img id="comment"src="comment.png" alt="comment"></p>
+            </div>
+            <?php if (!empty($_SESSION['username'])) : ?>
         </div>
-        <?php endif;?>
-        </div>
+        <?php endif; ?>
+
+     <?php endif; ?>
 
     <?php endforeach;?>
         </div>
@@ -104,5 +107,8 @@ echo "not logged in";
   <div id="downloadButton"> 
          <a  href="post.php"><button id="download" ><img src="./download.png" alt=""></button></a>
          </div>    
+
+         <script src="app.js"></script>
+
 </body>
 </html>

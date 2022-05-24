@@ -16,10 +16,10 @@ class feed {
 
         $conn = DB::getInstance();
         $statement =$conn->prepare("select * from post order by id desc limit :limit");
-        $statement->bindValue(":limit", $limit);
-        var_dump($limit);
+        $statement->bindValue(":limit", $limit,PDO::PARAM_INT);
+        //var_dump($limit);
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
 
 
@@ -33,9 +33,21 @@ class feed {
         //var_dump($limit);
 
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
 
+
+
+    }
+    public static function getPostById($id) {
+        $conn = DB::getInstance();
+        $statement = $conn->prepare("select * from post where id = :id");
+        $statement->bindValue(":id", $id);
+        //var_dump($limit);
+
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
 
 
     }

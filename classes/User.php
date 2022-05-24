@@ -13,6 +13,9 @@ private $password;
 
 //Post: 
 //get: Je krijgt je informatie in de url. input velden hebben een name nodig!
+//Namespaces zijn bedoeld zodat je meerdere classes users hebt zonder dat ze doorelkaar gebruikt gaan kunnen worden, ze groeperen namelijk de classes met zelfde namespace
+//Met bcrypt encrypteer je een wachtwoord, zodat mensen het niet kunnen ontcijferen met een of andere tool. //Wij gebruiken password default. Dat is het wachtwoord dat ingegeven is, een standaard algoritme en een kost die extra random characters er bij zet
+ 
 
 
 
@@ -119,6 +122,7 @@ public static function login($username, $password){
         session_start();
 
         $_SESSION["username"] = $username;
+        
         //doorsturen naar index.php (empty state)
         header("Location: index.php");
     }
