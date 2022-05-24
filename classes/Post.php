@@ -1,33 +1,11 @@
 <?php
 
 class Post {
-    private $id;
     private $filename;
     private $title;
     private $description;
     private $tags;
 
-    
-    //setters en getters
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get the value of filename
@@ -109,57 +87,61 @@ class Post {
         return $this;
     }
 
-    //ulpoad post
-    public static function uploadPost($title, $description, $tags,) {
-
+    //uploaden van post
+    public function addPost() {
+        //het pad om de geuploade afbeelding in op te slagen
+        // $target = "image/" . basename($_FILES["uploadfile"]["name"]);
         $filename = $_FILES["uploadfile"]["name"];
-	    $tempname = $_FILES["uploadfile"]["tmp_name"];	
-		$folder = "image/".$filename;
+        $tempname = $_FILES["uploadfile"]["tmp_name"];	
+		$folder = "image/".date('YmdHis')."_".$filename; //.date('YmdHis')."_"
 
-        // connectie met db
+        //het type bestand uitlezen zodat we later non-images kunnen tegenhouden
+        $imageFileType = strtolower(pathinfo($folder,PATHINFO_EXTENSION));
+
+        //connectie naar db
         $conn = DB::getInstance();
 
+        //alle data ophalen uit het ingestuurde formulier
+        $filename = $this->getFilename();
+        $title = $this->getTitle();
+        $description = $this->getDescription();
+        $tags = $this->getTags();
 
-        //query
-        $statement = $conn->prepare("INSERT INTO `post` (filename, title, description, tags) VALUES (:filename, :title, :description, :tags)");
-        $statement->bindValue(":filename", $filename);
-        $statement->bindValue(":title", $title);
-        $statement->bindValue(":description", $description);
-        $statement->bindValue(":tags", $tags);
+        if(!empty($imageFileType)){
+            if($imageFileType === "jpg" || $imageFileType === "jpeg" || $imageFileType === "png") {
+                $filename = $_FILES["uploadfile"]["name"];
+            } else {
+                throw new Exception("Please choose a valid png, jpg or jpeg file");
+            }
+        } else {
+            throw new Exception("The image cannot be empty");
+        }
 
-		// Execute query
-		// mysqli_query($conn, $sql);
+        //opgehaalde data opslagen in databank
+        $statement = $conn->prepare("insert into `post` (filename, title, description, tags) VALUES (:filename, :title, :description, :tags)");
+        $statement->bindValue(":filename",$folder);
+        $statement->bindValue(":title",$title);
+        $statement->bindValue(":description",$description);
+        $statement->bindValue(":tags",$tags);
         $statement->execute();
 
-        // Now let's move the uploaded image into the folder: image
+        //geuploade afbeelding in de images folder zetten
 		if (move_uploaded_file($tempname, $folder)) {
-			// $msg = "Image uploaded successfully";
-            echo "yep";
+			$msg = "Image uploaded successfully";
 		}else{
-			// $msg = "Failed to upload image";
-            echo "nope";
-	}
-
-        // $fileName = $_SESSION["user"] . "_" . date('YmdHis') . ".jpg";
-        // $targetDir = "uploads/posts/";
-        // $targetFile = $targetDir . basename($fileName);
-        //$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        // if ($_FILES["postImage"]["size"] > 700000) {
-        //     throw new Exception("File is too large, it can't be bigger than 700KB");
-        // } else {
-        //     move_uploaded_file($_FILES["postImage"]["tmp_name"], $targetFile);
-
-        //     $conn = Db::getConnection();
-        //     $statement = $conn->prepare("INSERT INTO posts (user_id, image, description, filter, location) VALUES (:userId, :image, :description, :filter, :location)");
-        //     $statement->bindValue(":userId", User::fetchUserByUsername($_SESSION["user"])->getId());
-        //     $statement->bindValue(":image", $fileName);
-        //     $statement->bindValue(":description",$description);
-        //     $statement->bindValue(":filter", $filter);
-        //     $statement->bindValue(":location", Post::findLocation($longitude, $latitude));
-        //     $statement->execute();
-
-        //     print_r(Post::findLocation($longitude, $latitude));
+			$msg = "Failed to upload image";
+	    }
+                
+        if ($imageFileType === "jpg" || $imageFileType === "jpeg") {
+            $image = imagecreatefromjpeg($folder);
+        } else {
+            $image = imagecreatefrompng($folder);
         }
+                
+        imagejpeg($image, $folder, 60);
+                
+        //de gebruiker terug naar de feed sturen
+        header("location: index.php");
+        
     }
+}

@@ -1,10 +1,14 @@
 <?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 class User {
 private $username;
 private $email;
 private $password;
 protected $options;
-
 
 /**
  * Get the value of username
@@ -54,6 +58,7 @@ public function setEmail($email)
 //else {
    /// echo "Email adres is niet juist";
 //}
+
 }
 
 /**
@@ -68,8 +73,8 @@ public function getPassword(){
  *
  * @return  self
  */ 
-public function setPassword($password){
 
+public function setPassword($password){
 
     // var_dump($password);
     // exit();
@@ -84,6 +89,7 @@ public function setPassword($password){
 public static function login($username, $password){
 
     //connectie met db
+    //$conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
     $conn = DB::getInstance();
     //query
     $statement = $conn->prepare("select * from user where username = :username");
@@ -94,13 +100,14 @@ public static function login($username, $password){
     if(!$user){
         throw new Exception('Deze gebruiker bestaat niet.');
     }
-    var_dump($user);
+
+    // var_dump($user);
 
     //wachtwoord verifiëren
     $hash = $user["password"];
     if(password_verify($password, $hash)){
         // login
-        echo "oke";
+        // echo "oke";
         session_start();
 
         $_SESSION["username"] = $username;
@@ -108,7 +115,7 @@ public static function login($username, $password){
         header("Location: index.php");
     }
     else{
-        echo "niet oke";
+        // echo "niet oke";
         throw new Exception('Gebruikersnaam en wachtwoord komen niet overeen.');
     }
 
@@ -127,6 +134,7 @@ public static function requestResetCode($email){
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         $resetCode = $user['verificationcode'];
+        return $resetCode;
     } catch (Throwable $e) {
         echo $e->getMessage();
         return false;
@@ -169,7 +177,7 @@ public static function requestResetCode($email){
             $nextSymbol = rand(0, strlen($characters) - 1);
             $requestCode .= $characters[$nextSymbol];
         }
-            echo $requestCode;
+            echo htmlspecialchars($requestCode);
 
             $from = 'info@duckstyle.be';
             $smtpServer = 'webreus.email';
@@ -276,7 +284,7 @@ public function SignUp() {
             var_dump($username);
             var_dump($password);
 
-            $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES ( :email, :username, :password);");
+            $statement = $conn->prepare("insert into `user` ( email, username, password) VALUES (:email, :username, :password);");
             $statement->bindValue(":username",$username);
             $statement->bindValue(":password",$password);
             $statement->bindValue(":email",$email);
@@ -300,86 +308,51 @@ public function SignUp() {
 
 
     }
-    /*if (empty($username)) {
-        throw new Exception("Gebruikersnaam kan niet leeg zijn");
-    }*/
 
 }
 
-    // public function canLogin($username, $password){ 
+public static function checkUsernameAvailable($usernameInput){
 
-    //     $username =$this->getUsername();
-    //     $password = $this->getPassword();
+    try {
+        //connectie met databank
+        $conn = DB::getInstance();
+        //query maken
+        $statement = $conn->prepare("SELECT * FROM user WHERE username = :usernameInput");
+        $statement->bindValue(":usernameInput", $usernameInput);
+        $statement->execute();
+        $user = $statement->rowCount();
+        $resetCode = $user['verificationcode'];
+        return $resetCode;
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
 
+function smtpmailer($to, $from, $from_name, $subject, $body, $smtpServer, $smtpUsername, $smtpPassword, $smtpPort)
+{
+    date_default_timezone_set('Europe/Brussels');
 
-
-    //     try {
-    //         $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
-    //         $statement = $conn->prepare("select * from users where username = :username");
-    //         $statement->bindValue(":username", $username); 	// sql injectie = prepare en bind
-    //         $statement->execute();
-    //         $user = $statement->fetch(PDO::FETCH_ASSOC);
-    //         // var_dump($user)
-    //         $hash = $user['password'];
-    //         if(password_verify($password, $hash)) {
-    //             return true;
-    //         }
-    //         else {
-    //             return false;
-    //         }
-
-    //     }
-    //     catch(Throwable $e) {
-    //         echo $e->getMessage();
-    //         return false;
-    //     }
-
-
-    // }
-
-
-    // public static function login($username, $password){
-
-    //     // $conn = Db::getConnection();
-    //     $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
-    //     $statement = $conn->prepare("select * from users where username = :username");
-    //     $statement->bindValue(":username", $username);
-    //     $statement->execute();
-    //     // get user connected to email
-    //     $user = $statement->fetch(PDO::FETCH_ASSOC);
-    //     // var_dump($user);
-    //     if(!$user){
-    //         throw new Exception('This user does not exist');
-    //     }
-
-    //         $hash = $user['password'];
-    //         if(password_verify($password, $hash)) {
-    //             echo "het klopt";
-    //             return true;
-    //         }
-    //         else {
-    //             echo "komt niet overeen";
-    //             return false;
-    //         }
-
-    //     //verify password
-    //     // $hash = $user["password"];
-    //     // if(password_verify($password, $hash)){
-    //     //     // login
-    //     //     session_start();
-    //     //     // $_SESSION["userid"] = $user['username'];
-    //     //     $_SESSION["username"] = $username;
-    //     //     $_SESSION["password"] = $password;
-    //     //     // $_SESSION["userId"] = $user['userId'];
-    //     //     // $_SESSION["userRole"] = $user['userRole'];
-    //     //     header("Location: index.php");
-    //     // }else{
-    //     //     throw new Exception('Incorrect password');
-    //     // }
-
-    // }
-
-
-
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    $mail->SMTPDebug = 0;
+    $mail->Host = $smtpServer;
+    $mail->Port = $smtpPort;
+    $mail->SMTPAuth = true;
+    $mail->Username = $smtpUsername;
+    $mail->Password = $smtpPassword;
+    $mail->setFrom($from, $from_name);
+    $mail->addReplyTo($from, $from_name);
+    $mail->addAddress($to, 'Beste student');
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+    $mail->Body .= "\nIf you didn't request this mail, please contact us";
+    //send the message, check for errors
+    if (!$mail->send()) {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    } else {
+        echo "Message sent!";
+    }
+}
 
 }
