@@ -27,7 +27,7 @@
         
         <p class="welkom">Welkom, <?php echo htmlspecialchars($username); ?></p>
         <div class="imageCropper">
-            <a href="profile.php"><img class="navFoto" src="<?php echo htmlspecialchars($result["profilepic"]); ?>" alt="profielfoto"></a>
+            <a href="editProfile.php"><img class="navFoto" src="<?php echo htmlspecialchars($result["profilepic"]); ?>" alt="profielfoto"></a>
         </div>
         <a href="logOut.php"><p class="logOut">Uitloggen</p></a>
         

@@ -86,19 +86,25 @@ CREATE TABLE `user` (
   `email` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `profilepic` blob,
+  `profilepic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `savedPostId` int(11) DEFAULT NULL,
   `likedPostId` int(11) DEFAULT NULL,
-  `toolsId` int(11) DEFAULT NULL
+  `toolsId` int(11) DEFAULT NULL,
+  `bio` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tweedeEmail` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `opleiding` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `username`, `password`, `profilepic`, `savedPostId`, `likedPostId`, `toolsId`) VALUES
-(7, 'r0837125@student.thomasmore.be', '123456', '$2y$14$qFCk3uVxWmPdcn3dULp2SeH0k.OUXhZcn0TgtGI/CXEWzq0p2diWy', NULL, NULL, NULL, NULL),
-(8, 'r8073125@thomasmore.be', '123456', '$2y$14$VPqQxo/eoR0PMTzgRyUYoeKhoKPW3SvhBNZWsn1RQqwPzcRr8Rk9K', NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `profilepic`, `savedPostId`, `likedPostId`, `toolsId`, `bio`, `facebook`, `instagram`, `tweedeEmail`, `opleiding`) VALUES
+(7, 'r0837125@student.thomasmore.be', '123456', '$2y$12$3LnclP1nQHgPuj8W9sQ.RuE1gUlWcY1OvqB1ukWlBvq5u4L9pxyXC', NULL, NULL, NULL, NULL, 'nieuwe bio', 'facebook', 'instagram', 'tst@test.com', 'imd '),
+(8, 'r8073125@thomasmore.be', '1234567', '$2y$14$VPqQxo/eoR0PMTzgRyUYoeKhoKPW3SvhBNZWsn1RQqwPzcRr8Rk9K', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 --
 -- Indexes for dumped tables
