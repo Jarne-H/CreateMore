@@ -1,61 +1,17 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
+include_once(__DIR__ . "./bootstrap.php");
+include_once(__DIR__ . "./classes/DB.php");
 
 
-function resetPassword($email, $recievedCode)
-{
 
-    try {
-        //connectie met databank
-        $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-        //query maken
-        $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-
-        $resetCode = $user['verificationcode'];
-
-        if ($recievedCode == $resetCode) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-        return false;
-    }
-}
 
 if (!empty($_POST)) {
-    $options = ['cost' => 14,];
     $email = $_POST['email'];
-    $recievedcode = $_POST['recievedcode'];
     $newpassword = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
     $passwordlength = strlen($_POST['password']);
-
-    if (resetPassword($email, $recievedcode)) {
-        if ($passwordlength >= 6) {
-            $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-            $query = $conn->prepare("UPDATE user SET password = :password WHERE email = :email");
-            $query->bindValue(":email", $email);
-            $query->bindValue(":password", $newpassword);
-            $query->execute();
-
-            $statement = $conn->prepare("UPDATE user SET verificationcode = NULL WHERE email = :email");
-            $statement->bindValue(":email", $email);
-            $statement->execute();
-            header("Location: ./index.php");
-        } else {
-            $errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
-        }
-    } else {
-        $errorWrongCode = "De resetcode was onjuist of vervallen.";
-    }
+    $recievedcode = $_POST['recievedcode'];
+    User::forgotPassword($email, $recievedCode, $newpassword, $passwordlength);
 }
 
 ?>

@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
 require "libraries\phpmail\PHPMailer\PHPMailerAutoload.php";
 include_once(__DIR__ . "./bootstrap.php");
@@ -15,16 +12,8 @@ if (!empty($_POST)) {
         $email = $_POST['email'];
 
 
-        header("./index.php");
-        //connectie met databank
-        $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-        //query maken
-        $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
-        $resetCode = $user['verificationcode'];
         User::requestResetCode($email);
+        header("./index.php");
     } catch (Throwable $e) {
         echo $e->getMessage();
         return false;

@@ -121,26 +121,11 @@ public static function login($username, $password){
 
 }
 
+    
 
 //Resetcode aanvragen en naar mail versturen
 public static function requestResetCode($email){
     
-    try {
-        //connectie met databank
-        $conn = DB::getInstance();
-        //query maken
-        $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
-        $resetCode = $user['verificationcode'];
-        return $resetCode;
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-        return false;
-    }
-
-
     function smtpmailer($to, $from, $from_name, $subject, $body, $smtpServer, $smtpUsername, $smtpPassword, $smtpPort){
         date_default_timezone_set('Europe/Brussels');
 
@@ -201,30 +186,51 @@ public static function requestResetCode($email){
         echo $e->getMessage();
         return false;
     }
-}
-
-
-public static function deleteProfile($username){
-
-    $deletedname = "DeletedUser";
-    $null = NULL;
     try {
         //connectie met databank
         $conn = DB::getInstance();
         //query maken
-        $statement = $conn->prepare("UPDATE user SET username = :deletedname, password = :null,profilepic = :null , email = :null WHERE username = :username");
-        $statement->bindValue(":username", $username);
-        $statement->bindValue(":deletedname", $deletedname);
-        $statement->bindValue(":null", $null);
+        $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
+        $statement->bindValue(":email", $email);
         $statement->execute();
-        var_dump($statement);
-
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        $resetCode = $user['verificationcode'];
+        var_dump($user);
+        return $resetCode;
     } catch (Throwable $e) {
         echo $e->getMessage();
         return false;
     }
+
 }
-public static function resetPassword($email, $recievedCode){
+
+
+public static function forgotPassword($email, $recievedCode, $newpassword, $passwordlength){
+    $options = ['cost' => 14,];
+
+    if (User::resetPassword($email, $recievedCode)) {
+        if ($passwordlength >= 6) {
+            $conn = DB::getInstance();
+            $query = $conn->prepare("UPDATE user SET password = :password WHERE email = :email");
+            $query->bindValue(":email", $email);
+            $query->bindValue(":password", $newpassword);
+            $query->execute();
+
+            $statement = $conn->prepare("UPDATE user SET verificationcode = NULL WHERE email = :email");
+            $statement->bindValue(":email", $email);
+            $statement->execute();
+            header("Location: ./index.php");
+        } else {
+            $errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
+            return $errorPass;
+        }
+    } else {
+        $errorWrongCode = "De resetcode was onjuist of vervallen.";
+        return $errorWrongCode;
+    }
+    
+}
+function resetPassword($email, $recievedCode){
         try {
             //connectie met databank
             $conn = DB::getInstance();
@@ -254,7 +260,27 @@ public static function resetUserPassword($email, $newpassword){
             $statement->execute();
             header("Location: ./index.php");
 }
-//test
+
+public static function deleteProfile($username){
+
+    $deletedname = "DeletedUser";
+    $null = NULL;
+    try {
+        //connectie met databank
+        $conn = DB::getInstance();
+        //query maken
+        $statement = $conn->prepare("UPDATE user SET username = :deletedname, password = :null,profilepic = :null , email = :null WHERE username = :username");
+        $statement->bindValue(":username", $username);
+        $statement->bindValue(":deletedname", $deletedname);
+        $statement->bindValue(":null", $null);
+        $statement->execute();
+        var_dump($statement);
+
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
 
 //Account aanmaken
 public function SignUp() {
@@ -326,32 +352,6 @@ public static function checkUsernameAvailable($usernameInput){
     } catch (Throwable $e) {
         echo $e->getMessage();
         return false;
-    }
-}
-
-function smtpmailer($to, $from, $from_name, $subject, $body, $smtpServer, $smtpUsername, $smtpPassword, $smtpPort)
-{
-    date_default_timezone_set('Europe/Brussels');
-
-    $mail = new PHPMailer;
-    $mail->isSMTP();
-    $mail->SMTPDebug = 0;
-    $mail->Host = $smtpServer;
-    $mail->Port = $smtpPort;
-    $mail->SMTPAuth = true;
-    $mail->Username = $smtpUsername;
-    $mail->Password = $smtpPassword;
-    $mail->setFrom($from, $from_name);
-    $mail->addReplyTo($from, $from_name);
-    $mail->addAddress($to, 'Beste student');
-    $mail->Subject = $subject;
-    $mail->Body = $body;
-    $mail->Body .= "\nIf you didn't request this mail, please contact us";
-    //send the message, check for errors
-    if (!$mail->send()) {
-        echo "Mailer Error: " . $mail->ErrorInfo;
-    } else {
-        echo "Message sent!";
     }
 }
 
