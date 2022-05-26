@@ -236,7 +236,12 @@ margin-left: 4em;
 
 }
 .like img {
-    max-width: 3em;
+    max-width: 2em;
+    
+}
+.like {
+    position: relative;
+    top: 50%;
 }
 
 .commentList  {

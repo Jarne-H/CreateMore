@@ -22,12 +22,16 @@ public function setUsername($username) {
     return $this;
 } 
 public function saveLike() {
+
     $username= $this->getUsername();
     //$text = $this->getText();
     $postId = $this->getPostId();
 
-
+    
     $conn = Db::getInstance();
+    $statement = $conn->prepare("select * from likes where where username = :username AND postId = :postId");
+    
+
     $statement = $conn->prepare("insert into likes (postId,username,dateCreated) values (:postId, :username,Now())");
     $statement->bindValue(":postId", $postId);
     $statement->bindValue(":username", $username);
@@ -48,11 +52,17 @@ public static function getAmount($postId) {
      
 
     }
+    
+
+
+
+
     public function unLike()
  {  
     $username= $this->getUsername();
     //$text = $this->getText();
     $postId = $this->getPostId();
+
 
         $conn = DB::getInstance();
         $statement = $conn->prepare("delete from likes where postId =:postId AND username = :username");

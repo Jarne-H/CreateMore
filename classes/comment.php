@@ -2,18 +2,18 @@
 
 class comment {
 
-    private $userId;     //Er moet een userId uit de database gehaald worden die hetzelfde is als de id van tabel user
+    private $username;     //Er moet een username uit de database gehaald worden die hetzelfde is als de usernae van de sessie user
     private $text; //De tekst die wordt ingevoerd in het invoerveld
     private $postId; //Het Id van de post dat gelijk staat aan id uit tabel post
 
     public function getUserName() {
-        return $this->userId;
+        return $this->username;
 
 
     }
     public function setUserName($valueUser) {
-     
-        $this->userId = $valueUser;
+        
+        $this->username = $valueUser;
         return $this;
     }
     public function getText() {
@@ -22,7 +22,7 @@ class comment {
     }
     public function setText($valueText) {
 
-        if (!empty($_POST['comment'])) {
+        if (!empty($_POST['text'])) {
         $this->text = $valueText;
         }
         return $this;
@@ -38,7 +38,7 @@ class comment {
 
     public function saveComment() {
 
-        $userId = $this->getUserName();
+        $username = $this->getUserName();
         $text = $this->getText();
         $postId = $this->getPostId();
 
@@ -48,7 +48,7 @@ class comment {
         //voeg het geen dat je post in de database
         $statement = $conn ->prepare("insert into comments (username, comment, postId) values (:username, :comment, :postId)");
         $statement->bindValue(":comment", $text);
-        $statement->bindValue(":username", $userId);
+        $statement->bindValue(":username", $username);
         $statement->bindValue(":postId", $postId);
 
        $result =  $statement->execute();

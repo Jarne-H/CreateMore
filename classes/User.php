@@ -35,8 +35,11 @@ private $password;
  */ 
 public function setUsername($username)
 {
-$this->username = $username;
 
+    if (!empty($_POST['username'])) {
+
+$this->username = $username;
+    }
 return $this;
 }
 public function getUsername()
@@ -64,7 +67,9 @@ public function setEmail($email)
     //Als het email adres bestaat ui thomasmore.be dan kan er verder gedaan worden
 
     //echo "Hallo ik ben er";
+    if (!empty($_POST['email'])) {
     $this->email = $email;
+    }
     return $this;
 
 
@@ -90,11 +95,11 @@ return $this->password;
  */ 
 public function setPassword($password)
 {
-
+if (!empty($_POST['password'])) {
 $options  = ['cost' => 14,];
 $password = password_hash($password, PASSWORD_DEFAULT, $options);
 $this->password = $password;
-
+}
 return $this;
 }
 public static function login($username, $password){
