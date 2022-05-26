@@ -12,7 +12,7 @@ $result = $profiel->getInfo();
 if(empty($result["username"])){
     header("Location: index.php");
 }
-
+// TODO: check if already followed
 
 ?>
 <!DOCTYPE html>
@@ -23,10 +23,17 @@ if(empty($result["username"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>createMore profiel</title>
     <link rel="stylesheet" href="CSS/profiel.css">
-    <link rel="stylesheet" href="./CSS/style.css">    
+    <link rel="stylesheet" href="./CSS/style.css">  
 </head>
 <body>
     <img class="profielFoto" src="<?php echo htmlspecialchars($result["profilepic"]); ?>" alt=""><br><br>
+
+    <input id="username" type="hidden" value="<?php echo htmlspecialchars($result["username"]); ?>"/>
+
+    <?php if($username != $_SESSION["username"]){ ?>
+        <button title="Report user as inapproriate" onclick="report()">🚩</button>
+        <button onclick="follow()">Follow</button>
+    <?php } ?>
 
     <b>Gebruikersnaam</b>
     <p><?php echo htmlspecialchars($result['username']); ?></p><br><br>
@@ -50,5 +57,6 @@ if(empty($result["username"])){
     <b>Instagram</b>
     <br>
     <a href="<?php echo htmlspecialchars($result['instagram']); ?>"><?php echo htmlspecialchars($result['facebook']); ?></a><br><br>
+    <script src="js/profile.js"></script>
 </body>
 </html>

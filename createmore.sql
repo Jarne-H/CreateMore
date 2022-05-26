@@ -78,6 +78,18 @@ INSERT INTO `tools` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `reported` varchar(255) NOT NULL,
+  `reportedBy` varchar(255) NOT NULL,
+  `reported_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+--
 -- Table structure for table `user`
 --
 

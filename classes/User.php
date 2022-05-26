@@ -84,6 +84,14 @@ class User
         return $this;
     }
 
+    public function report($toReport){
+        $conn = DB::getInstance();
+        $statement = $conn->prepare("INSERT INTO `reports` (reported, reportedBy) VALUES (:reported, :reportedBy);");
+        $statement->bindValue(":reported", $toReport);
+        $statement->bindValue(":reportedBy", $this->username);
+        $statement->execute();
+    }
+
     //Login
     public static function login($username, $password)
     {

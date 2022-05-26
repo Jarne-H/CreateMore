@@ -85,6 +85,18 @@ INSERT INTO `tools` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `reported` varchar(255) NOT NULL,
+  `reportedBy` varchar(255) NOT NULL,
+  `reported_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+--
 -- Table structure for table `user`
 --
 
@@ -93,19 +105,25 @@ CREATE TABLE `user` (
   `email` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `profilepic` blob,
+  `profilepic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `savedPostId` int(11) DEFAULT NULL,
   `likedPostId` int(11) DEFAULT NULL,
-  `toolsId` int(11) DEFAULT NULL
+  `toolsId` int(11) DEFAULT NULL,
+  `bio` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tweedeEmail` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `opleiding` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `username`, `password`, `profilepic`, `savedPostId`, `likedPostId`, `toolsId`) VALUES
-(9, 'r0802186@student.thomasmore.be', 'Deborah', '$2y$12$GN9gGfI45d4rrvecCElXv.RXkOs5x8wl6/yeDQAeTM1wMK1EzteRm', NULL, NULL, NULL, NULL),
-(10, 'deborah@thomasmore.be', 'deborah', '$2y$12$Jc2QMB0X9Ho61hfuBHAWRetxTOUskkkGmqlh63i14e8P0/0fZFC5.', NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id`, `email`, `username`, `password`, `profilepic`, `savedPostId`, `likedPostId`, `toolsId`, `bio`, `facebook`, `instagram`, `tweedeEmail`, `opleiding`) VALUES
+(7, 'r0837125@student.thomasmore.be', '123456', '$2y$12$3LnclP1nQHgPuj8W9sQ.RuE1gUlWcY1OvqB1ukWlBvq5u4L9pxyXC', NULL, NULL, NULL, NULL, 'nieuwe bio', 'facebook', 'instagram', 'tst@test.com', 'imd '),
+(8, 'r8073125@thomasmore.be', '1234567', '$2y$14$VPqQxo/eoR0PMTzgRyUYoeKhoKPW3SvhBNZWsn1RQqwPzcRr8Rk9K', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '');
 
 --
 -- Indexes for dumped tables
