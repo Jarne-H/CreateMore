@@ -217,7 +217,7 @@ if (strlen($password)<=6) {
 
 // public static function login($username, $password){
 
-//     // $conn = Db::getConnection();
+//     // $conn = DB::getConnection();
 //     $conn = new PDO('mysql:host=localhost:8889;dbname=createmore2', "root", "root");
 //     $statement = $conn->prepare("select * from users where username = :username");
 //     $statement->bindValue(":username", $username);
