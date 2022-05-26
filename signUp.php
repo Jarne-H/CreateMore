@@ -132,7 +132,7 @@ else {
 				<input type="submit" value="Meld je aan" id="btn">
 				</div>
 
-				<p id="hebaccount">Heb je al een account? <a href="./logIn.php">Login in</a></p>
+				<p id="hebaccount">Heb je al een account? <a href="logIn.php">Login in</a></p>
 
 
 		</div>

@@ -1,8 +1,13 @@
 <?php
+    require_once('./bootstrap.php');
 
     session_start();
-    // $username = $_SESSION['username'];
+    $username = $_SESSION['username'];
 
+    $profiel = new Profile();
+    $profiel->setUsername($username);
+
+    $result = $profiel->getInfo();
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -20,10 +25,9 @@
 
         <input class="search" type="text" placeholder="Zoeken..">
         
-        <!-- <p class="welkom">Welkom, <?php echo $username; ?></p> -->
-        <p class="welkom">Welkom, gebruiker</p>
+        <p class="welkom">Welkom, <?php echo htmlspecialchars($username); ?></p>
         <div class="imageCropper">
-            <a href="profile.php"><img src="/CreateMore/assets/profile1.png" alt="profielfoto"></a>
+            <a href="profile.php"><img class="navFoto" src="<?php echo htmlspecialchars($result["profilepic"]); ?>" alt="profielfoto"></a>
         </div>
         <a href="logOut.php"><p class="logOut">Uitloggen</p></a>
         

@@ -3,9 +3,6 @@ body {
     background-color: white;
     margin-left: 3em;
     font-family: roboto;
-    
-    
-    
 }
 
 /* formulier */
@@ -169,4 +166,9 @@ img {
 
 }
 
-
+.navFoto {
+    width: 25px;
+}
+.profielFoto {
+    width: 250px;
+}

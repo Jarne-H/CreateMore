@@ -62,7 +62,7 @@
 				<input type="submit" value="Meld je aan" id="btn">
 				</div>
 
-				<p id="hebaccount">Heb je nog geen account?<a href="/signUp.php"> Meld aan</a></p>
+				<p id="hebaccount">Heb je nog geen account?<a href="signUp.php"> Meld aan</a></p>
 
 			</form>
 		</div>
