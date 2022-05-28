@@ -64,6 +64,22 @@ INSERT INTO `post` (`id`, `filename`, `title`, `description`, `tags`, `toolId`, 
 (3, 'Bouwsteen.png', 'Logo Bouwsteen', 'Voor een app waar lagere schoolkinderen motiveren centraal staan.', 'logo, app, school', NULL, NULL, NULL, NULL, NULL, NULL),
 (4, 'De-Peerle.png', 'Logo De Peerle', 'Ontworpen voor een spiritueel winkeltje gelegen in Mechelen.', 'logo, Mechelen, spiritualiteit', NULL, NULL, NULL, NULL, NULL, NULL);
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `follow`
+--
+
+CREATE TABLE `follow` (
+  `id` int(11) NOT NULL,
+  `follows` varchar(255) NOT NULL,
+  `followedBy` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 -- --------------------------------------------------------
 
 --

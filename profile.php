@@ -12,7 +12,26 @@ $result = $profiel->getInfo();
 if(empty($result["username"])){
     header("Location: index.php");
 }
-// TODO: check if already followed
+
+// Als gebruiker al volgt, toon "Unfollow"
+// Als gebruiker nog niet volgt, toon "Follow"
+$follower = $_SESSION["username"];
+
+
+$thisUser = new User();
+$thisUser->setUsername($follower);
+
+if($thisUser->doesFollow($username)){
+    // Gebruikter volgt al
+    $followText = "Unfollow";
+}else{
+    $followText = "Follow";
+}
+
+
+$profileUser = new User();
+$profileUser->setUsername($username);
+$followCount = $profileUser->getFollowCount();
 
 ?>
 <!DOCTYPE html>
@@ -23,7 +42,7 @@ if(empty($result["username"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>createMore profiel</title>
     <link rel="stylesheet" href="CSS/profiel.css">
-    <link rel="stylesheet" href="./CSS/style.css">  
+    <link rel="stylesheet" href="CSS/style.css">  
 </head>
 <body>
     <img class="profielFoto" src="<?php echo htmlspecialchars($result["profilepic"]); ?>" alt=""><br><br>
@@ -32,8 +51,12 @@ if(empty($result["username"])){
 
     <?php if($username != $_SESSION["username"]){ ?>
         <button title="Report user as inapproriate" onclick="report()">🚩</button>
-        <button onclick="follow()">Follow</button>
+        <button onclick="follow()" id="follow"><?php echo $followText; ?></button>
     <?php } ?>
+
+    <br><br>
+    <b>Volgers</b>
+    <p id="followCount"><?php echo htmlspecialchars($followCount); ?></p><br><br>
 
     <b>Gebruikersnaam</b>
     <p><?php echo htmlspecialchars($result['username']); ?></p><br><br>

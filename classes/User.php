@@ -92,6 +92,47 @@ class User
         $statement->execute();
     }
 
+    public function follow($toFollow){
+        $conn = DB::getInstance();
+        $statement = $conn->prepare("INSERT INTO `follow` (follows, followedBy) VALUES (:follows, :followedBy);");
+        $statement->bindValue(":follows", $toFollow);
+        $statement->bindValue(":followedBy", $this->username);
+        $statement->execute();
+    }
+
+    public function unfollow($toUnfollow){
+        $conn = DB::getInstance();
+        $statement = $conn->prepare("DELETE FROM `follow` WHERE follows = :follows AND followedBy = :followedBy;");
+        $statement->bindValue(":follows", $toUnfollow);
+        $statement->bindValue(":followedBy", $this->username);
+        $statement->execute();
+    }
+
+    public function getFollowCount(){
+        $conn = DB::getInstance();
+        $statement = $conn->prepare("SELECT * FROM `follow` WHERE follows = :follows;");
+        $statement->bindValue(":follows", $this->username);
+        $statement->execute();
+        return $statement->rowCount();
+    }
+
+    public function doesFollow($toFollow){
+        $conn = DB::getInstance();
+        $query = $conn->prepare("SELECT * FROM follow WHERE follows = :follows AND followedBy = :followedBy;");
+        $query->bindValue(":follows", $toFollow);
+        $query->bindValue(":followedBy", $this->username);
+        $query->execute();
+        $result = $query->rowCount();
+
+        if ($result > 0) {
+            // De gebruiker volgt $toFollow
+            return true;
+        } else {
+            // De gebruiker volgt NIET $toFollow
+            return false;
+        }
+    }
+
     //Login
     public static function login($username, $password)
     {

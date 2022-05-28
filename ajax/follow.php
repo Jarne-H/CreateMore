@@ -6,4 +6,17 @@ session_start();
 $follower = $_SESSION["username"];
 $toFollow = $_GET["username"];
 
-// TODO: Voeg to aan database dat $follower $toFollow wilt volgen
+$user = new User();
+$user->setUsername($follower);
+
+if($follower != $toFollow){
+    if($user->doesFollow($toFollow)){
+        // Gebruikter volgt al, ontvolg
+        $user->unfollow($toFollow);
+    }else{
+        // Gebruikter volgt nog niet, volg
+        $user->follow($toFollow);
+    }
+}
+
+

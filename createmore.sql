@@ -60,6 +60,19 @@ CREATE TABLE `post` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `follow`
+--
+
+CREATE TABLE `follow` (
+  `id` int(11) NOT NULL,
+  `follows` varchar(255) NOT NULL,
+  `followedBy` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tools`
 --
 
