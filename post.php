@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include_once(__DIR__ . "./includes/nav.inc.php");
+include_once(__DIR__ . "/includes/nav.inc.php");
 include_once("bootstrap.php");
 
 // include_once("bootstrapsession_start();.php");
@@ -23,10 +23,10 @@ include_once("bootstrap.php");
 			$description = $_POST['description'];
 			$tags = $_POST['tags'];
 
-			var_dump($title);
-			var_dump($description);
-			var_dump($tags);
-			echo "oke!";
+			// var_dump($title);
+			// var_dump($description);
+			// var_dump($tags);
+			// echo "oke!";
 
 			// $tags = $_POST['tags'];
 			// $tags = explode(" ", $tags);
@@ -50,7 +50,7 @@ include_once("bootstrap.php");
 <head>
   <meta charset="UTF-8">
   <title>Project plaatsen</title>
-  <link rel="stylesheet" href="./CSS/style.css">    
+  <link rel="stylesheet" href="/CSS/style.css">    
 </head>
 <body>
 	<div id="header">

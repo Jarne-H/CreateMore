@@ -51,6 +51,7 @@ h1 {
     padding: 0.5em;
     width: 10em;
     color: white;
+    cursor: pointer;
 }
 #hebaccount {
     font-size: small;
@@ -122,7 +123,7 @@ a:active {
 img {
     display: inline;
     margin: 0 auto;
-    height: 100%;
+    /* height: 100%; */
     width: auto;
 }
 
@@ -133,7 +134,7 @@ img {
 }
 
 
-/* startpagina (index.php) */
+/* startpagina (feed.php) */
 
 .titel {
     margin-top: 5em;
@@ -156,17 +157,154 @@ img {
 
 
 /* formulier (post) */
-.square {
+/* .square {
     height: 25em;
     width: 25em;
     background-color: #C4C4C4;
 
-  }
+  } */
 
   #upload-image {
       margin: 0 auto;
-      margin-top: 21em;
+      /* margin-top: 21em; */
+      margin-top: 1.5em;
+      margin-bottom: 1em;
 
 }
 
+.profielfoto {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
 
+
+
+/* .navFoto {
+    width: 25px;
+}
+.profielFoto {
+    width: 250px;
+} */
+
+
+/* feed */
+.feed {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:1em;
+    margin-top: 0em;
+    max-height: 100%;
+    
+}
+#feed-post {
+margin-left: 4em;
+}
+#body {
+    max-lines: 4;
+
+}
+
+#feed-image {
+    background-color: grey;
+    max-width: 11em;
+    max-height: 10em;
+    margin-top: 2em;
+}
+#leftButton {
+    position: fixed;
+    left: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+.arrow {
+    /* max-width:50%; */
+    max-height: 10%;
+}
+
+#rightButton {
+    position: fixed;
+    right: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+#download {
+    width: 100px;
+    height: 100px;
+    background-color: #042886;
+    position: fixed;
+    right: 4%;
+    top: 79%;
+    border-radius: 100%;
+    padding: 1em;
+
+}
+
+#downloadButton img {
+    height: 100%;
+}
+
+#like {
+   max-width: 0.8em;
+   
+}
+#comment {
+    max-width: 0.8em;
+}
+.likes   {
+    display: grid;
+   grid-template-columns: repeat(2,1fr);
+    margin-left: -0.9em;
+    font-family: roboto;
+
+}
+#detailPage {
+    position: relative;
+    left: 25%;
+    margin-top: -2%;
+
+
+}
+#detailPage img{
+
+    width: 50%;
+    height: 60%;
+    margin-top: 2em;
+
+
+}
+.like img {
+    max-width: 2em;
+    
+}
+.like {
+    position: relative;
+    top: 50%;
+}
+
+.commentList  {
+    list-style-type: none;
+    position: relative;
+    left: 10%;
+}
+.commentList li {
+    border: 2px solid #042886;
+    background-color: lightgrey;
+    padding: 1em;
+    max-width: 30%;
+    
+}
+#submitComment {
+    background-color: #042886;
+    margin-top: 4em;
+    border-radius: 0.4em;
+    padding: 0.5em;
+    width: 10em;
+    color: white;
+}
+#textComment {
+    background-color: lightgrey;
+    padding: 0.75em;
+}

@@ -25,7 +25,7 @@ abstract class DB {
                 $password = $config['password'];
 
                 //echo "💥";
-                self::$conn = new PDO('mysql:host=localhost:8889;dbname='.$database.';charset=utf8mb4', $user, $password);
+                self::$conn = new PDO('mysql:host=ID345843_createmore0.db.webhosting.be:3306;dbname='.$database.';charset=utf8mb4', $user, $password);
                 return self::$conn;
             }
         }

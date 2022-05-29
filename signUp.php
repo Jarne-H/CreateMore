@@ -45,7 +45,7 @@ $passwordconf = $_POST['password_conf'];
 				$user->SignUp();
 				session_start();
 				$_SESSION['email'] = $user->getEmail();
-				header("Location: login.php");
+				header("Location: index.php");
 				}
 
 				catch (Throwable $error) {
@@ -71,7 +71,7 @@ else {
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" href="./CSS/style.css"> 
+	<link rel="stylesheet" href="/CSS/style.css"> 
 </head>
 <body>
 	<div id="header">
@@ -132,7 +132,7 @@ else {
 				<input type="submit" value="Meld je aan" id="btn">
 				</div>
 
-				<p id="hebaccount">Heb je al een account? <a href="./logIn.php">Login in</a></p>
+				<p id="hebaccount">Heb je al een account? <a href="./index.php">Log in</a></p>
 
 
 		</div>

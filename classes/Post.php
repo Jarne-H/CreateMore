@@ -1,3 +1,4 @@
+<script> location.replace("feed.php"); </script>
 <?php
 
 class Post {
@@ -118,11 +119,12 @@ class Post {
         }
 
         //opgehaalde data opslagen in databank
-        $statement = $conn->prepare("insert into `post` (filename, title, description, tags) VALUES (:filename, :title, :description, :tags)");
+        $statement = $conn->prepare("insert into `post` (filename, title, description, tags, username) VALUES (:filename, :title, :description, :tags, :username)");
         $statement->bindValue(":filename",$folder);
         $statement->bindValue(":title",$title);
         $statement->bindValue(":description",$description);
         $statement->bindValue(":tags",$tags);
+        $statement->bindValue("username", $_SESSION['username']);
         $statement->execute();
 
         //geuploade afbeelding in de images folder zetten
@@ -141,7 +143,8 @@ class Post {
         imagejpeg($image, $folder, 60);
                 
         //de gebruiker terug naar de feed sturen
-        header("location: index.php");
+        // header("Location: feed.php");
         
     }
 }
+
