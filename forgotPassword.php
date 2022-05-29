@@ -1,61 +1,22 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
 
-
-function resetPassword($email, $recievedCode)
-{
-
-    try {
-        //connectie met databank
-        $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-        //query maken
-        $statement = $conn->prepare("SELECT * FROM user WHERE email = :email");
-        $statement->bindValue(":email", $email);
-        $statement->execute();
-        $user = $statement->fetch(PDO::FETCH_ASSOC);
+include_once("bootstrap.php");
 
 
-        $resetCode = $user['verificationcode'];
 
-        if ($recievedCode == $resetCode) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (Throwable $e) {
-        echo $e->getMessage();
-        return false;
-    }
-}
 
 if (!empty($_POST)) {
-    $options = ['cost' => 14,];
     $email = $_POST['email'];
-    $recievedcode = $_POST['recievedcode'];
+    $options = ['cost' => 12,];
     $newpassword = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
+    // var_dump($passwordhash);
     $passwordlength = strlen($_POST['password']);
+    $recievedcode = $_POST['recievedcode'];
+    User::forgotPassword($email, $recievedCode, $newpassword, $passwordlength);
+    // var_dump($newpassword);
+    header("Location: index.php");
 
-    if (resetPassword($email, $recievedcode)) {
-        if ($passwordlength >= 6) {
-            $conn = new PDO('mysql:host=localhost:8889;dbname=createmore', "root", "root");
-            $query = $conn->prepare("UPDATE user SET password = :password WHERE email = :email");
-            $query->bindValue(":email", $email);
-            $query->bindValue(":password", $newpassword);
-            $query->execute();
-
-            $statement = $conn->prepare("UPDATE user SET verificationcode = NULL WHERE email = :email");
-            $statement->bindValue(":email", $email);
-            $statement->execute();
-            header("Location: ./index.php");
-        } else {
-            $errorPass = "Wachtwoord moet minstens 6 characters lang zijn.";
-        }
-    } else {
-        $errorWrongCode = "De resetcode was onjuist of vervallen.";
-    }
 }
 
 ?>
@@ -66,8 +27,8 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/style.css">
-    <title>Password Reset</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Nieuw wachtwoord instellen</title>
 </head>
 
 <body>
@@ -76,7 +37,7 @@ if (!empty($_POST)) {
     </div>
     <div id="main">
         <h1>createMore</h1>
-        <h3>Password Reset</h3>
+        <h3>Nieuw wachtwoord instellen</h3>
         <div class="loginfb"></div>
         <div class="linel"></div>
         <div class="liner"></div>
@@ -85,13 +46,13 @@ if (!empty($_POST)) {
             <form method="post" action="">
 
                 <div class="inputfields">
-                    <label for="email">Email</label>
-                    <input name="email" placeholder="Email" type="text" required />
+                    <label for="email">E-mail</label>
+                    <input name="email" placeholder="E-mail" type="text" required />
                 </div>
 
                 <div class="inputfields">
-                    <label for="recievedcode">Reset code</label>
-                    <input name="recievedcode" placeholder="Reset code" type="text" required />
+                    <label for="recievedcode">Gekregen code</label>
+                    <input name="recievedcode" placeholder="Gekregen code" type="text" required />
                 </div>
 
                 <?php if (isset($errorWrongCode)) : ?>
@@ -101,8 +62,8 @@ if (!empty($_POST)) {
                 <?php endif; ?>
 
                 <div class="inputfields">
-                    <label for="password">New password</label>
-                    <input name="password" placeholder="New password" type="password" required />
+                    <label for="password">Nieuw wachtwoord</label>
+                    <input name="password" placeholder="Nieuw wachtwoord" type="password" required />
                 </div>
 
                 <?php if (isset($errorPass)) : ?>
@@ -113,10 +74,10 @@ if (!empty($_POST)) {
 
 
                 <div>
-                    <input class="btn" type="submit" value="Reset password">
+                    <input id="btn" type="submit" value="Stel wachtwoord in">
                 </div>
 
-                <p id="hebaccount">Heb je nog geen account? <a href="./signUp.php">Meld aan</a></p>
+                <p id="hebaccount">Heb je nog geen account? <a href="signup.php">Meld aan</a></p>
 
         </div>
         </form>

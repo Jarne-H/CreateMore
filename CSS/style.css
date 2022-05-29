@@ -1,5 +1,6 @@
 body {
-    background-color: #E5E5E5;
+    /* background-color: #E5E5E5; */
+    background-color: white;
     margin-left: 3em;
     font-family: roboto;
     
@@ -7,10 +8,12 @@ body {
     
 }
 
+/* formulier */
+
 #form div{
     display: grid;
    padding-bottom: 1.35em;
-   max-width: 15em;
+   /* max-width: 15em; */
    font-size: 0.8em;
   
   
@@ -43,13 +46,267 @@ h1 {
 }
 #btn {
     background-color: #042886;
-    margin-top: 5em;
+    margin-top: 4em;
     border-radius: 0.4em;
     padding: 0.5em;
     width: 10em;
     color: white;
+    cursor: pointer;
 }
 #hebaccount {
     font-size: small;
 }
     
+
+/* startpagina, navigatie (nav.inc.php) */
+nav {
+    display: inline-block;
+    /* margin: 0; */
+    /* margin-right: 10px; */
+    padding: 2em;
+    width: 100%;
+}
+
+
+.logo {
+    display: inline;
+    text-align: left;
+    font-family: roboto;
+    /* width: 100px; */
+    margin-right: 5em;
+}
+
+.navLink {
+    display: inline;
+    text-decoration: none;
+    /* width: 100px; */
+    margin-right: 4em;
+
+    
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #042886;
+}
+
+a:active {
+    color: #042886;
+}
+
+.search {
+    display: inline;
+    border: none;
+    border-radius: 0.4em;
+    background-color: #E9E9E9;
+    margin-right: 4em;
+}
+
+.welkom {
+    display: inline;
+    width: 100px;
+    margin-right: 1em;
+}
+
+.imageCropper {
+    display: inline;
+    margin-right: 4em;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+img {
+    display: inline;
+    margin: 0 auto;
+    /* height: 100%; */
+    width: auto;
+}
+
+.logOut {
+    display: inline;
+     width: 100px;
+     margin-right: 4em;
+}
+
+
+/* startpagina (feed.php) */
+
+.titel {
+    margin-top: 5em;
+}
+
+.subtitel {
+    text-align: center;
+    font-size: 1.6em;
+}
+
+.buttonCenter {
+    margin: 0;
+    margin-top: 2em;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+/* formulier (post) */
+/* .square {
+    height: 25em;
+    width: 25em;
+    background-color: #C4C4C4;
+
+  } */
+
+  #upload-image {
+      margin: 0 auto;
+      /* margin-top: 21em; */
+      margin-top: 1.5em;
+      margin-bottom: 1em;
+
+}
+
+.profielfoto {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
+
+
+
+/* .navFoto {
+    width: 25px;
+}
+.profielFoto {
+    width: 250px;
+} */
+
+
+/* feed */
+.feed {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:1em;
+    margin-top: 0em;
+    max-height: 100%;
+    
+}
+#feed-post {
+margin-left: 4em;
+}
+#body {
+    max-lines: 4;
+
+}
+
+#feed-image {
+    background-color: grey;
+    max-width: 11em;
+    max-height: 10em;
+    margin-top: 2em;
+}
+#leftButton {
+    position: fixed;
+    left: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+.arrow {
+    /* max-width:50%; */
+    max-height: 10%;
+}
+
+#rightButton {
+    position: fixed;
+    right: 2%;
+    top: 50%;
+    height: calc(100% - 112px);
+
+}
+#download {
+    width: 100px;
+    height: 100px;
+    background-color: #042886;
+    position: fixed;
+    right: 4%;
+    top: 79%;
+    border-radius: 100%;
+    padding: 1em;
+
+}
+
+#downloadButton img {
+    height: 100%;
+}
+
+#like {
+   max-width: 0.8em;
+   
+}
+#comment {
+    max-width: 0.8em;
+}
+.likes   {
+    display: grid;
+   grid-template-columns: repeat(2,1fr);
+    margin-left: -0.9em;
+    font-family: roboto;
+
+}
+#detailPage {
+    position: relative;
+    left: 25%;
+    margin-top: -2%;
+
+
+}
+#detailPage img{
+
+    width: 50%;
+    height: 60%;
+    margin-top: 2em;
+
+
+}
+.like img {
+    max-width: 2em;
+    
+}
+.like {
+    position: relative;
+    top: 50%;
+}
+
+.commentList  {
+    list-style-type: none;
+    position: relative;
+    left: 10%;
+}
+.commentList li {
+    border: 2px solid #042886;
+    background-color: lightgrey;
+    padding: 1em;
+    max-width: 30%;
+    
+}
+#submitComment {
+    background-color: #042886;
+    margin-top: 4em;
+    border-radius: 0.4em;
+    padding: 0.5em;
+    width: 10em;
+    color: white;
+}
+#textComment {
+    background-color: lightgrey;
+    padding: 0.75em;
+}
