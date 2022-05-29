@@ -50,7 +50,7 @@ $followCount = $profileUser->getFollowCount();
     <input id="username" type="hidden" value="<?php echo htmlspecialchars($result["username"]); ?>"/>
 
     <?php if($username != $_SESSION["username"]){ ?>
-        <button title="Report user as inapproriate" onclick="report()">🚩</button>
+        <button title="Report user as inapproriate" onclick="report()" id="reportbtn">🚩</button>
         <button onclick="follow()" id="follow"><?php echo $followText; ?></button>
     <?php } ?>
 
@@ -58,6 +58,7 @@ $followCount = $profileUser->getFollowCount();
     <b>Volgers</b>
     <p id="followCount"><?php echo htmlspecialchars($followCount); ?></p><br><br>
 
+    <div id="profielinfo">
     <b>Gebruikersnaam</b>
     <p><?php echo htmlspecialchars($result['username']); ?></p><br><br>
     
@@ -80,6 +81,8 @@ $followCount = $profileUser->getFollowCount();
     <b>Instagram</b>
     <br>
     <a href="<?php echo htmlspecialchars($result['instagram']); ?>"><?php echo htmlspecialchars($result['facebook']); ?></a><br><br>
+    </div>
+
     <script src="js/profile.js"></script>
 </body>
 </html>
